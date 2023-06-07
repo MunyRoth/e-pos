@@ -18,7 +18,7 @@ function classNames(...classes) {
 export default function Navbar() {
     const navigate = useNavigate();
 
-    const isLoggedIn = JSON.parse(localStorage.getItem("isLogged"));
+    const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
 
     const handleSignOut = () => {
         localStorage.setItem("isLoggedIn", JSON.stringify(false));

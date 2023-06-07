@@ -1,21 +1,30 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
-import AuthWrapper from './components/AuthWrapper';
-import Cashier from "./components/Cashier";
-import Items from "./components/Items";
-import Members from "./components/Members";
-import Branches from "./components/Branches";
-import Database from "./components/Database";
-import Profile from "./components/Profile";
-import Page404 from "./components/Page404";
-import Login from "./components/Login";
+import AuthWrapper from './old/AuthWrapper';
+import Cashier from "./old/Cashier";
+import Items from "./old/Items";
+import Members from "./old/Members";
+import Branches from "./old/Branches";
+import Database from "./old/Database";
+import Profile from "./old/Profile";
+import Page404 from "./old/Page404";
+import Login from "./old/Login";
+import Home from "./old/Home";
+
+import Admin from "./views/admin";
+import Dashboard from "./views/admin/dashboard";
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
+                <Route exact path="/" element={<Home />} />
+
+                <Route path="/" element={<Admin />}>
+                    <Route path="dashboard" element={<Dashboard />} />
+                </Route>
                 <Route element={<AuthWrapper />}>
-                    <Route exact path="/" element={<Cashier/>} />
+
                     <Route exact path="/cashier" element={<Cashier />} />
                     <Route exact path="/items" element={<Items />} />
                     <Route exact path="/members" element={<Members />} />
@@ -23,6 +32,7 @@ function App() {
                     <Route exact path="/database" element={<Database />} />
                     <Route exact path="/profile" element={<Profile />} />
                 </Route>
+
                 <Route exact path="/login" element={<Login />} />
                 <Route path="*" element={<Page404 />} />
             </Routes>
