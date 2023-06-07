@@ -2,32 +2,34 @@ import React, { Component } from "react";
 import Chart from "react-apexcharts";
 
 class LineChart extends Component {
+    
     constructor(props) {
         super(props);
-
+        console.log(this.props.data.today);
         this.state = {
             series: [
                 {
                     name: "ថ្ងៃនេះ",
-                    data: [18, 19, 13, 16, 12, 12]
+                    data: this.props.data.today
                 },
                 {
                     name: "ម្សិលម៉ិញ",
-                    data: [12, 11, 14, 18, 17, 13]
+                    data: this.props.data.yesterday
                 }
             ],
             options: {
                 chart: {
-                    height: 350,
-                    type: 'line',
-                    dropShadow: {
-                        enabled: true,
-                        color: '#000',
-                        top: 18,
-                        left: 7,
-                        blur: 10,
-                        opacity: 0.2
-                    },
+                    type: "area",
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    foreColor: '#808080',
+                    // dropShadow: {
+                    //     enabled: true,
+                    //     color: ['#00ff00', '#000000'],
+                    //     top: 18,
+                    //     left: 7,
+                    //     blur: 10,
+                        
+                    // },
                     zoom: {
                         enabled: false
                     },
@@ -35,23 +37,31 @@ class LineChart extends Component {
                         show: false
                     }
                 },
-                colors: ['#77B6EA', '#545454'],
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 0.7,
+                        opacityFrom: 0.7,
+                        opacityTo: 0.5,
+                        stops: [0, 90, 100]
+                      }
+                },
+                colors: ['#A0A0A0', '#32a852'],
                 dataLabels: {
-                    enabled: true,
+                    enabled: false
                 },
                 stroke: {
                     curve: 'smooth'
                 },
                 title: {
                     text: 'ចំនួនលក់ប្រចាំថ្ងៃ',
-                    align: 'left'
+                    align: 'left',
+                    style: {
+                        color:  '#000'
+                    },
                 },
                 grid: {
-                    borderColor: '#e7e7e7',
-                    row: {
-                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                        opacity: 0.5
-                    },
+                    strokeDashArray: 10,
                 },
                 markers: {
                     size: 1
@@ -60,16 +70,91 @@ class LineChart extends Component {
                     categories: ['6:00AM', '9:00AM', '12:00PM', '3:00PM', '6:00PM', '9:00PM']
                 },
                 yaxis: {
-                    min: 5,
+                    tickAmount: 4,
+                    min: 0,
                     max: 20
                 },
                 legend: {
                     position: 'top',
                     horizontalAlign: 'right',
                     floating: true,
-                    offsetY: -25,
+                    offsetY: -40,
                     offsetX: -5
-                }
+                },
+                responsive: [
+                    {
+                        breakpoint: 2000,
+                        options: {
+                          chart: {
+                              width: "500",
+                          },
+                        }
+                    },
+                    {
+                        breakpoint: 1900,
+                        options: {
+                          chart: {
+                              width: "475",
+                          },
+                        }
+                    },
+                    {
+                        breakpoint: 1800,
+                        options: {
+                          chart: {
+                              width: "450",
+                          },
+                        }
+                    },
+                    {
+                        breakpoint: 1700,
+                        options: {
+                          chart: {
+                              width: "425",
+                          },
+                        }
+                    },
+                    {
+                        breakpoint: 1600,
+                        options: {
+                          chart: {
+                              width: "390",
+                          },
+                        }
+                    },
+                    {
+                      breakpoint: 1500,
+                      options: {
+                        chart: {
+                            width: "360",
+                        },
+                      }
+                    },
+                    {
+                        breakpoint: 1400,
+                        options: {
+                          chart: {
+                              width: "330",
+                          },
+                        }
+                    },
+                    {
+                        breakpoint: 1300,
+                        options: {
+                          chart: {
+                              width: "300",
+                          },
+                        }
+                    },
+                    {
+                        breakpoint: 1200,
+                        options: {
+                          chart: {
+                              width: "200",
+                          },
+                        }
+                    },
+                  ]
             },
         };
     }
@@ -82,13 +167,10 @@ class LineChart extends Component {
                         <Chart
                             options={this.state.options}
                             series={this.state.series}
-                            type="line"
+                            type="area"
                             width="500"
                         />
                     </div>
-                </div>
-                <div>
-                    hello {this.props.name}
                 </div>
             </div>
 

@@ -21,7 +21,7 @@ export default class Sidebar extends Component {
                                     </svg>
                                 </button>
                                 <Link
-                                    to=""
+                                    to="/admin"
                                     className="flex ml-2 md:mr-24">
                                     <img
                                         className="h-8 mr-3"
@@ -91,7 +91,7 @@ export default class Sidebar extends Component {
                     <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                         <ul className="space-y-2 font-medium">
                             <li>
-                                <Link to="#"
+                                <Link to="dashboard"
                                       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <svg aria-hidden="true"
                                          className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -106,7 +106,9 @@ export default class Sidebar extends Component {
                                 <button type="button"
                                         className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                         aria-controls="dropdown-example"
-                                        data-collapse-toggle="dropdown-example">
+                                        data-collapse-toggle="dropdown-example"
+
+                                        >
                                     <svg aria-hidden="true"
                                          className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                                          fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

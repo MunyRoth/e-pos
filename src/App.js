@@ -9,8 +9,8 @@ import Database from "./old/Database";
 import Profile from "./old/Profile";
 import Page404 from "./old/Page404";
 import Login from "./old/Login";
-import Home from "./old/Home";
 
+import Home from "./views/home";
 import Admin from "./views/admin";
 import Dashboard from "./views/admin/dashboard";
 
@@ -20,7 +20,7 @@ function App() {
             <Routes>
                 <Route exact path="/" element={<Home />} />
 
-                <Route path="/" element={<Admin />}>
+                <Route path="/admin/" element={<Admin />}>
                     <Route path="dashboard" element={<Dashboard />} />
                 </Route>
                 <Route element={<AuthWrapper />}>
