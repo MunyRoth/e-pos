@@ -3,7 +3,6 @@ import './App.css';
 import AuthWrapper from './old/AuthWrapper';
 import Cashier from "./old/Cashier";
 import Items from "./old/Items";
-import Members from "./old/Members";
 import Branches from "./old/Branches";
 import Database from "./old/Database";
 import Profile from "./old/Profile";
@@ -13,6 +12,10 @@ import Login from "./old/Login";
 import Home from "./views/home";
 import Admin from "./views/admin";
 import Dashboard from "./views/admin/dashboard";
+import Products from "./views/admin/products";
+import Bills from "./views/admin/bills";
+import Invoices from "./views/admin/invoices";
+import Members from "./views/admin/members";
 
 function App() {
     return (
@@ -21,14 +24,18 @@ function App() {
                 <Route exact path="/" element={<Home />} />
 
                 <Route path="/admin/" element={<Admin />}>
-                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route exact path="dashboard" element={<Dashboard />} />
+                    <Route exact path="products" element={<Products />} />
+                    <Route exact path="bills" element={<Bills />} />
+                    <Route exact path="invoices" element={<Invoices />} />
+                    <Route exact path="members" element={<Members />} />
+                    <Route exact path="branches" element={<Branches />} />
                 </Route>
                 <Route element={<AuthWrapper />}>
 
                     <Route exact path="/cashier" element={<Cashier />} />
                     <Route exact path="/items" element={<Items />} />
-                    <Route exact path="/members" element={<Members />} />
-                    <Route exact path="/branches" element={<Branches />} />
+
                     <Route exact path="/database" element={<Database />} />
                     <Route exact path="/profile" element={<Profile />} />
                 </Route>

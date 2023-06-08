@@ -9,27 +9,27 @@ class LineChart extends Component {
         this.state = {
             series: [
                 {
+                    name: "ម្សិលម៉ិញ",
+                    data: this.props.data.yesterday
+                },
+                {
                     name: "ថ្ងៃនេះ",
                     data: this.props.data.today
                 },
-                {
-                    name: "ម្សិលម៉ិញ",
-                    data: this.props.data.yesterday
-                }
             ],
             options: {
                 chart: {
                     type: "area",
                     fontFamily: 'Helvetica, Arial, sans-serif',
                     foreColor: '#808080',
-                    // dropShadow: {
-                    //     enabled: true,
-                    //     color: ['#00ff00', '#000000'],
-                    //     top: 18,
-                    //     left: 7,
-                    //     blur: 10,
+                    dropShadow: {
+                        enabled: true,
+                        color: ['#A0A0A0', '#32a852'],
+                        top: 5,
+                        left: 5,
+                        blur: 2,
                         
-                    // },
+                    },
                     zoom: {
                         enabled: false
                     },
@@ -40,9 +40,9 @@ class LineChart extends Component {
                 fill: {
                     type: 'gradient',
                     gradient: {
-                        shadeIntensity: 0.7,
-                        opacityFrom: 0.7,
-                        opacityTo: 0.5,
+                        shadeIntensity: 1,
+                        opacityFrom: 0.4,
+                        opacityTo: 0.2,
                         stops: [0, 90, 100]
                       }
                 },
@@ -51,22 +51,26 @@ class LineChart extends Component {
                     enabled: false
                 },
                 stroke: {
-                    curve: 'smooth'
+                    curve: 'smooth',
+                    width: 2,
                 },
                 title: {
                     text: 'ចំនួនលក់ប្រចាំថ្ងៃ',
-                    align: 'left',
-                    style: {
-                        color:  '#000'
-                    },
+                    align: 'left'
                 },
                 grid: {
-                    strokeDashArray: 10,
+                    strokeDashArray: 10
                 },
                 markers: {
                     size: 1
                 },
                 xaxis: {
+                    axisBorder: {
+                        show: false
+                    },
+                    axisTicks: {
+                        show: false
+                    },
                     categories: ['6:00AM', '9:00AM', '12:00PM', '3:00PM', '6:00PM', '9:00PM']
                 },
                 yaxis: {
@@ -80,6 +84,16 @@ class LineChart extends Component {
                     floating: true,
                     offsetY: -40,
                     offsetX: -5
+                },
+                theme: {
+                    mode: 'light',
+                    palette: 'palette1',
+                    monochrome: {
+                        enabled: false,
+                        color: '#255aee',
+                        shadeTo: 'light',
+                        shadeIntensity: 0.65
+                    },
                 },
                 responsive: [
                     {
