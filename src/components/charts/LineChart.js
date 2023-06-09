@@ -2,20 +2,15 @@ import React, { Component } from "react";
 import Chart from "react-apexcharts";
 
 class LineChart extends Component {
-    
+
     constructor(props) {
         super(props);
-        console.log(this.props.data.today);
         this.state = {
             series: [
                 {
-                    name: "ម្សិលម៉ិញ",
-                    data: this.props.data.yesterday
-                },
-                {
                     name: "ថ្ងៃនេះ",
-                    data: this.props.data.today
-                },
+                    data: this.props.data?.map(data => data)
+                }
             ],
             options: {
                 chart: {
@@ -24,11 +19,11 @@ class LineChart extends Component {
                     foreColor: '#808080',
                     dropShadow: {
                         enabled: true,
-                        color: ['#A0A0A0', '#32a852'],
+                        color: ['#32a852'],
                         top: 5,
                         left: 5,
                         blur: 2,
-                        
+
                     },
                     zoom: {
                         enabled: false
@@ -44,9 +39,9 @@ class LineChart extends Component {
                         opacityFrom: 0.4,
                         opacityTo: 0.2,
                         stops: [0, 90, 100]
-                      }
+                    }
                 },
-                colors: ['#A0A0A0', '#32a852'],
+                colors: ['#32a852'],
                 dataLabels: {
                     enabled: false
                 },
@@ -55,7 +50,7 @@ class LineChart extends Component {
                     width: 2,
                 },
                 title: {
-                    text: 'ចំនួនលក់ប្រចាំថ្ងៃ',
+                    text: this.props.title,
                     align: 'left'
                 },
                 grid: {
@@ -99,76 +94,76 @@ class LineChart extends Component {
                     {
                         breakpoint: 2000,
                         options: {
-                          chart: {
-                              width: "500",
-                          },
+                            chart: {
+                                width: "500",
+                            },
                         }
                     },
                     {
                         breakpoint: 1900,
                         options: {
-                          chart: {
-                              width: "475",
-                          },
+                            chart: {
+                                width: "475",
+                            },
                         }
                     },
                     {
                         breakpoint: 1800,
                         options: {
-                          chart: {
-                              width: "450",
-                          },
+                            chart: {
+                                width: "450",
+                            },
                         }
                     },
                     {
                         breakpoint: 1700,
                         options: {
-                          chart: {
-                              width: "425",
-                          },
+                            chart: {
+                                width: "425",
+                            },
                         }
                     },
                     {
                         breakpoint: 1600,
                         options: {
-                          chart: {
-                              width: "390",
-                          },
+                            chart: {
+                                width: "390",
+                            },
                         }
                     },
                     {
-                      breakpoint: 1500,
-                      options: {
-                        chart: {
-                            width: "360",
-                        },
-                      }
+                        breakpoint: 1500,
+                        options: {
+                            chart: {
+                                width: "360",
+                            },
+                        }
                     },
                     {
                         breakpoint: 1400,
                         options: {
-                          chart: {
-                              width: "330",
-                          },
+                            chart: {
+                                width: "330",
+                            },
                         }
                     },
                     {
                         breakpoint: 1300,
                         options: {
-                          chart: {
-                              width: "300",
-                          },
+                            chart: {
+                                width: "300",
+                            },
                         }
                     },
                     {
                         breakpoint: 1200,
                         options: {
-                          chart: {
-                              width: "200",
-                          },
+                            chart: {
+                                width: "200",
+                            },
                         }
                     },
-                  ]
+                ]
             },
         };
     }

@@ -1,37 +1,17 @@
-import {Component} from "react";
+import {Fragment} from 'react'
+import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {Link} from "react-router-dom";
 
-export default class Navbar extends Component {
-    render() {
-        return (
-            <nav
-                className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
-            >
-                <div className="mx-auto px-4 py-4 sm:px-8 lg:px-16">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center justify-start">
-                            <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
-                                    aria-controls="logo-sidebar" type="button"
-                                    className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-                                <span className="sr-only">Open sidebar</span>
-                                <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path clipRule="evenodd" fillRule="evenodd"
-                                          d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-                                </svg>
-                            </button>
-                            <Link
-                                to="/admin"
-                                className="flex ml-2 md:mr-24">
-                                <img
-                                    className="h-8 mr-3"
-                                    src="https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png"
-                                    alt="ePOS"
-                                />
-                                <span
-                                    className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">ePOS</span>
-                            </Link>
-                        </div>
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
+
+export default function Navbar() {
+    return (
+        <Disclosure as="nav" className="px-4 border-b-2 dark:bg-gray-800">
+            {({ open }) => (
+                <>
+                    <div className="relative flex h-16 items-center justify-between">
 
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -42,65 +22,77 @@ export default class Navbar extends Component {
                                           clipRule="evenodd"></path>
                                 </svg>
                             </div>
-                            <input type="text" id="table-search-users"
-                                   className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                   placeholder="Search barcode"/>
+                            <input type="text"
+                                   className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main"
+                                   placeholder="ស្វែងរក"/>
                         </div>
 
-                        <div className="flex items-center">
-                            <div className="flex items-center ml-3">
-                                <div className="flex items-center space-x-4">
-                                    <img className="w-10 h-10 rounded-full"
-                                         src="/docs/images/people/profile-picture-5.jpg" alt="" />
-                                    <div className="font-medium dark:text-white">
-                                        <div>Muny Roth</div>
-                                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                                            Owner
+                        <Menu as="div" className="relative ml-3">
+                            <div>
+                                <Menu.Button className="text-start p-1 flex rounded-lg text-sm hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-200">
+
+                                    <div className="flex items-center space-x-4">
+                                        <img
+                                            className="h-10 w-10 rounded-full"
+                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            alt="profile"
+                                        />
+                                        <div className="font-medium dark:text-white">
+                                            <div>មុនី រតន៍</div>
+                                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                                                ម្ចាស់ហាង
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div
-                                    className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
-                                    id="dropdown-user">
-                                    <div className="px-4 py-3" role="none">
-                                        <p className="text-sm text-gray-900 dark:text-white" role="none">
-                                            Neil Sims
-                                        </p>
-                                        <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
-                                           role="none">
-                                            neil.sims@flowbite.com
-                                        </p>
-                                    </div>
-                                    <ul className="py-1" role="none">
-                                        <li>
-                                            <Link to="#"
-                                                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                  role="menuitem">Dashboard</Link>
-                                        </li>
-                                        <li>
-                                            <Link to="#"
-                                                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                  role="menuitem">Settings</Link>
-                                        </li>
-                                        <li>
-                                            <Link to="#"
-                                                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                  role="menuitem">Earnings</Link>
-                                        </li>
-                                        <li>
-                                            <Link to="#"
-                                                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                  role="menuitem">Sign out</Link>
-                                        </li>
-                                    </ul>
-                                </div>
+                                    <span className="sr-only">Open user menu</span>
+                                </Menu.Button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <Link
+                                                to="/profile"
+                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                            >
+                                                Your Profile
+                                            </Link>
+                                        )}
+                                    </Menu.Item>
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <Link
+                                                to="#"
+                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                            >
+                                                Settings
+                                            </Link>
+                                        )}
+                                    </Menu.Item>
+                                    <Menu.Item>
+                                        {({ active }) => (
+                                            <button
 
-        )
-    }
+                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                            >
+                                                Sign out
+                                            </button>
+                                        )}
+                                    </Menu.Item>
+                                </Menu.Items>
+                            </Transition>
+                        </Menu>
+                    </div>
+                </>
+            )}
+        </Disclosure>
+    )
 }

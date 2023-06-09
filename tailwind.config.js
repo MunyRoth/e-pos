@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        'main': '#32a852',
+      },
       height: {
         'fill': '88vh',
       }
