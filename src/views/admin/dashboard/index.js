@@ -4,14 +4,17 @@ import {useEffect, useState} from "react";
 
 export default function Dashboard() {
 
-    const data1 = {
-        'data': [18, 19, 13, 16, 12, 12]
-    };
-    const data2 = {
-        'data': [11, 12, 13, 14, 15, 16]
-    };
+    const data1 = [11, 12, 13, 14, 15, 16];
+    const data2 = [18, 11, 12, 17, 10, 12];
+    const data3 = [13, 15, 11, 16, 17, 12];
+    const data4 = [15, 11, 15, 19, 16, 13];
 
-    const [data, updateData] = useState([18, 19, 13, 16, 12, 12]);
+    const [data, updateData] = useState([18, 19, 13, 16, 11, 12]);
+    const [x, updateX] = useState(['6:00AM', '9:00AM', '12:00PM', '3:00PM', '6:00PM', '9:00PM']);
+    const [y, updateY] = useState({
+        min: 0,
+        max: 20
+    });
 
     const products = [
         {
@@ -37,7 +40,19 @@ export default function Dashboard() {
             category: '1',
             image: "https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png",
             quantity: 200
-        }
+        },
+        {
+            name: 'Product E',
+            category: '1',
+            image: "https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png",
+            quantity: 200
+        },
+        {
+            name: 'Product F',
+            category: '1',
+            image: "https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png",
+            quantity: 200
+        },
     ]
 
     const customers = [
@@ -67,20 +82,15 @@ export default function Dashboard() {
         },
     ]
 
+    const [activeTab, setActiveTab] = useState(2);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const val = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
-            let array = [...data, val];
-            array.shift();
-            updateData(array);
-            console.log(data);
-        }, 1000);
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+    }
 
-        return () => {
-            window.clearInterval(interval); // clear the interval in the cleanup function
-        };
-    }, [data]); // pass the data as a dependency (because you are using it inside the effect)
+    // useEffect(() => {
+
+    // }, [data]);
 
     return (
         <>
@@ -92,31 +102,46 @@ export default function Dashboard() {
                         <li className="mr-2">
                             <button
                                 onClick={() => {
-
+                                    updateData(data1);
+                                    setActiveTab(1);
                                 }}
-                                className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
+                                className={classNames((activeTab == 1) ? 'text-main border-main rounded-t-lg active dark:text-blue-500 dark:border-blue-500' : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', 'inline-block p-4 border-b-2 rounded-t-lg')}
+                            >
                                 ម្សិលម៉ិញ
                             </button>
                         </li>
                         <li className="mr-2">
-                            <Link
-                                to="#"
-                                className="inline-block p-4 text-main border-b-2 border-main rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
-                                aria-current="page">
+                            <button
+                                onClick={() => {
+                                    updateData(data2);
+                                    setActiveTab(2);
+                                }}
+                                className={classNames((activeTab == 2) ? 'text-main border-main rounded-t-lg active dark:text-blue-500 dark:border-blue-500' : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', 'inline-block p-4 border-b-2 rounded-t-lg')}
+                            >
                                 ថ្ងៃនេះ
-                            </Link>
+                            </button>
                         </li>
                         <li className="mr-2">
-                            <Link to="#"
-                                  className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
+                            <button
+                             onClick={() => {
+                                updateData(data3);
+                                setActiveTab(3);
+                             }}
+                             className={classNames((activeTab == 3) ? 'text-main border-main rounded-t-lg active dark:text-blue-500 dark:border-blue-500bg-gray-100' : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', 'inline-block p-4 border-b-2 rounded-t-lg')}
+                             >
                                 សប្តាហ៍នេះ
-                            </Link>
+                            </button>
                         </li>
                         <li className="mr-2">
-                            <Link to="#"
-                                  className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300">
+                            <button
+                             onClick={() => {
+                                updateData(data4);
+                                setActiveTab(4);
+                             }}
+                             className={classNames((activeTab == 4) ? 'text-main border-main rounded-t-lg active dark:text-blue-500 dark:border-blue-500' : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', 'inline-block p-4 border-b-2 rounded-t-lg')}
+                             >
                                 ខែនេះ
-                            </Link>
+                            </button>
                         </li>
 
                     </ul>
@@ -124,16 +149,24 @@ export default function Dashboard() {
             </div>
 
             <div className="grid grid-cols-6 gap-4">
-                <div className="col-span-2 flex items-start h-fit">
-                    <div className="flex justify-center w-full pt-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <LineChart data={data} title="ចំនួនលក់"/>
+                <div className="col-span-2 flex items-start h-full">
+                    <div className="flex flex-col justify-between w-full h-full border border-gray-200 rounded-lg shadow sm:pt-4 sm:px-4 dark:bg-gray-800 dark:border-gray-700">
+                        <div className="flex items-center justify-between mb-4">
+                            <h5 className="text-lg font-bold leading-none text-gray-900 dark:text-white">
+                            ចំនួនលក់
+                            </h5>
+                        </div>
+                        <LineChart
+                            data={data}
+                            x={x}
+                            y={y} title="ចំនួនលក់"/>
                     </div>
                 </div>
                 <div className="col-span-2 flex items-start row-span-2">
                     <div
-                        className="w-full border border-gray-200 rounded-lg shadow sm:px-8 sm:pt-8 sm:pb-4 dark:bg-gray-800 dark:border-gray-700">
+                        className="w-full h-full border border-gray-200 rounded-lg shadow sm:pt-4 sm:px-4 sm:pb-2 dark:bg-gray-800 dark:border-gray-700">
                         <div className="flex items-center justify-between mb-4">
-                            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
+                            <h5 className="text-lg font-bold leading-none text-gray-900 dark:text-white">
                                 កំពូលផលិតផល
                             </h5>
                             <Link
@@ -179,9 +212,9 @@ export default function Dashboard() {
                 </div>
                 <div className="col-span-2 flex items-start row-span-2">
                     <div
-                        className="w-full border border-gray-200 rounded-lg shadow sm:px-8 sm:pt-8 sm:pb-4 dark:bg-gray-800 dark:border-gray-700">
+                        className="w-full h-full border border-gray-200 rounded-lg shadow sm:pt-4 sm:px-4 sm:pb-2 dark:bg-gray-800 dark:border-gray-700">
                         <div className="flex items-center justify-between mb-4">
-                            <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
+                            <h5 className="text-lg font-bold leading-none text-gray-900 dark:text-white">
                                 កំពូលអតិថិជន
                             </h5>
                             <Link
@@ -221,19 +254,19 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </div>
-                <div className="flex items-start">
-                    <div className="w-full py-4 font-bold text-center border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div className="h-full">
+                    <div className="w-full h-full py-4 font-bold text-center border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                         <div className="">
-                            <h5>ចំនួនលក់សរុប</h5>
+                            <h5 className="text-lg">ចំនួនលក់សរុប</h5>
                             <p className="text-main">+1%</p>
                         </div>
                         <p className="text-3xl mt-2">100</p>
                     </div>
                 </div>
-                <div className="flex items-start">
-                    <div className="w-full py-4 font-bold text-center border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div className="h-full">
+                    <div className="w-full h-full py-4 font-bold text-center border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                         <div className="">
-                            <h5>ចំនួនប្រាក់សរុប</h5>
+                            <h5 className="text-lg">ចំនួនប្រាក់សរុប</h5>
                             <p className="text-main">+1%</p>
                         </div>
                         <p className="text-3xl mt-2">1,000,000៛</p>
