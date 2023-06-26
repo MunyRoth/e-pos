@@ -1,4 +1,5 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import Navbar from '../components/navbar';
 
 const AuthWrapper = () => {
     const location = useLocation(); // current location
@@ -6,7 +7,10 @@ const AuthWrapper = () => {
     const isLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
 
     return isLoggedIn
-        ? <Outlet />
+        ? <>
+        <Navbar />
+        <Outlet />
+        </>
         : (
             <Navigate
                 to="/login"
