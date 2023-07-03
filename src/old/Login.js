@@ -2,8 +2,11 @@ import {useNavigate} from "react-router-dom";
 
 export default function Login() {
     const navigate = useNavigate();
-    const handleSubmit = () => {
+    const handleSubmit = e => {
+        e.preventDefault();
+
         localStorage.setItem("isLoggedIn", JSON.stringify(true));
+        localStorage.setItem("role", JSON.stringify(e.currentTarget.value.email));
         navigate('/cashier');
     }
 
