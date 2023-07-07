@@ -9,6 +9,8 @@ function classNames(...classes) {
 export default function Navbar() {
 
     let token = localStorage.getItem('token');
+    let store = localStorage.getItem('storeName');
+
     const [name, setName] = useState('');
     const [avatar, setAvatar] = useState('');
     const [role, setRole] = useState('');
@@ -55,6 +57,12 @@ export default function Navbar() {
                             <input type="text"
                                    className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main"
                                    placeholder="ស្វែងរក"/>
+                        </div>
+
+                        <div className="relative">
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                {store}
+                            </div>
                         </div>
 
                         <Menu as="div" className="relative ml-3">

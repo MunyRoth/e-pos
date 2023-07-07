@@ -7,7 +7,8 @@ import SignOut from "./auth/SignOut";
 
 import Admin from "./views/admin";
 import Dashboard from "./views/admin/dashboard";
-import Products from "./views/admin/products";
+import Items from "./views/admin/items";
+import AddItem from "./views/admin/items/add";
 import Bills from "./views/admin/bills";
 import Invoices from "./views/admin/invoices";
 import Members from "./views/admin/members";
@@ -28,7 +29,8 @@ function App() {
                 <Route element={<AuthWrapper />}>
                     <Route path="/admin/" element={<Admin />}>
                         <Route exact path="dashboard" element={<Dashboard />} />
-                        <Route exact path="products" element={<Products />} />
+                        <Route exact path="items" element={<Items />} />
+                        <Route exact path="items/add" element={<AddItem />} />
                         <Route exact path="bills" element={<Bills />} />
                         <Route exact path="invoices" element={<Invoices />} />
                         <Route exact path="members" element={<Members />} />

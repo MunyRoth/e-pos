@@ -3,95 +3,32 @@ import {Link} from "react-router-dom";
 
 export default function Products() {
 
-    const data = [
-        {
-            barcode: 1,
-            name: 'a',
-            img: 'https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png',
-            price: 100,
-            cost: 100,
-            discount: 10,
-            tax: 10,
-            quantity: 2,
-            addedBy: 'roth'
-        }, {
-            barcode: 2,
-            name: 'b',
-            img: 'https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png',
-            price: 100,
-            cost: 100,
-            discount: 10,
-            tax: 10,
-            quantity: 2,
-            addedBy: 'roth'
-        }, {
-            barcode: 3,
-            name: 'c',
-            img: 'https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png',
-            price: 100,
-            cost: 100,
-            discount: 10,
-            tax: 10,
-            quantity: 2,
-            addedBy: 'roth'
-        }, {
-            barcode: 4,
-            name: 'd',
-            img: 'https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png',
-            price: 100,
-            cost: 100,
-            discount: 10,
-            tax: 10,
-            quantity: 2,
-            addedBy: 'roth'
-        }, {
-            barcode: 5,
-            name: 'e',
-            img: 'https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png',
-            price: 100,
-            cost: 100,
-            discount: 10,
-            tax: 10,
-            quantity: 2,
-            addedBy: 'roth'
-        }, {
-            barcode: 6,
-            name: 'f',
-            img: 'https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png',
-            price: 100,
-            cost: 100,
-            discount: 10,
-            tax: 10,
-            quantity: 2,
-            addedBy: 'roth'
-        }, {
-            barcode: 7,
-            name: 'g',
-            img: 'https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png',
-            price: 100,
-            cost: 100,
-            discount: 10,
-            tax: 10,
-            quantity: 2,
-            addedBy: 'roth'
-        }, {
-            barcode: 8,
-            name: 'h',
-            img: 'https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png',
-            price: 100,
-            cost: 100,
-            discount: 10,
-            tax: 10,
-            quantity: 2,
-            addedBy: 'roth'
-        }
-    ]
+    let token = localStorage.getItem('token');
+    let storeId = parseInt(localStorage.getItem('storeId'));
 
     const [items, setItems] = useState([]);
 
+    const getItems = async e => {
+        try {
+            const response = await fetch('http://localhost:8000/api/items/'+storeId, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // eslint-disable-next-line no-use-before-define
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            const data = await response.json();
+            setItems(data.data);
+
+        } catch (error) {
+        }
+    }
+
     useEffect(() => {
+        getItems();
         // setItems(data);
-    }, [])
+    }, []);
 
     return (
         <>
@@ -158,10 +95,10 @@ export default function Products() {
                             <th scope="row"
                                 className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                 <img className="w-10 h-10"
-                                     src={item.img} alt={item.name}/>
+                                     src={item.image_url} alt={item.name}/>
                                 <div className="pl-3">
                                     <div className="text-base font-semibold">{item.name}</div>
-                                    <div className="text-xs font-normal text-gray-500">{item.barcode}</div>
+                                    <div className="text-xs font-normal text-gray-500">{item.UPC}</div>
                                 </div>
                             </th>
                             <td className="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">

@@ -4,7 +4,10 @@ const SignOut = () => {
     const location = useLocation(); // current location
 
     localStorage.setItem("isLoggedIn", JSON.stringify(false));
-    localStorage.setItem("token", "");
+    localStorage.removeItem("token");
+
+    localStorage.removeItem("storeName");
+    localStorage.removeItem("storeId");
 
     return (
             <Navigate
