@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 export default function Products() {
 
@@ -85,22 +86,24 @@ export default function Products() {
             addedBy: 'roth'
         }
     ]
+
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        setItems(data);
+        // setItems(data);
     }, [])
 
     return (
         <>
             <div className="flex items-center justify-between dark:bg-gray-900">
                 <h2 className="m-5 text-4xl font-bold text-gray-900 dark:text-white">ទំនិញ</h2>
-                <button
+                <Link
+                    to="add"
                     type="button"
                     className="rounded-lg bg-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                 >
                     បន្ថែមទំនិញ
-                </button>
+                </Link>
                 <label htmlFor="table-search" className="sr-only">ស្វែងរក</label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

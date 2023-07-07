@@ -1,4 +1,4 @@
-import {Fragment} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {Link} from "react-router-dom";
 
@@ -7,6 +7,36 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+
+    let token = localStorage.getItem('token');
+    const [name, setName] = useState('');
+    const [avatar, setAvatar] = useState('');
+    const [role, setRole] = useState('');
+
+    const getProfile = async e => {
+        try {
+            const response = await fetch('http://localhost:8000/api/profile', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // eslint-disable-next-line no-use-before-define
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            const data = await response.json();
+
+            setName(data.data.name);
+            setAvatar(data.data.avatar);
+            setRole(data.data.role.name_km);
+
+        } catch (error) {
+        }
+    }
+
+    useEffect(() => {
+        getProfile();
+    }, []);
+
     return (
         <Disclosure as="nav" className="px-4 border-b-2 dark:bg-gray-800">
             {({ open }) => (
@@ -34,13 +64,13 @@ export default function Navbar() {
                                     <div className="flex items-center space-x-4">
                                         <img
                                             className="h-10 w-10 rounded-full"
-                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                            src={avatar}
                                             alt="profile"
                                         />
                                         <div className="font-medium dark:text-white">
-                                            <div>មុនី រតន៍</div>
+                                            <div>{name}</div>
                                             <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                ម្ចាស់ហាង
+                                                {role}
                                             </div>
                                         </div>
                                     </div>
@@ -63,28 +93,18 @@ export default function Navbar() {
                                                 to="/profile"
                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                             >
-                                                Your Profile
+                                                គណនី
                                             </Link>
                                         )}
                                     </Menu.Item>
                                     <Menu.Item>
                                         {({ active }) => (
                                             <Link
-                                                to="#"
+                                                to="/signout"
                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                             >
-                                                Settings
+                                                ចាកចេញ
                                             </Link>
-                                        )}
-                                    </Menu.Item>
-                                    <Menu.Item>
-                                        {({ active }) => (
-                                            <button
-
-                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                            >
-                                                Sign out
-                                            </button>
                                         )}
                                     </Menu.Item>
                                 </Menu.Items>
