@@ -17,35 +17,39 @@ import Page404 from "../pages/Page404";
 import Authentication from "../features/auth/authentication/Authentication";
 import Authorization from "../features/auth/authorization/Authorization";
 import PERMISSIONS from "../features/auth/permissions/Permissions";
+import {AuthProvider} from "../features/auth/AuthProvider";
+import React from "react";
 
 const RoutePath = () => {
     return (
         <BrowserRouter>
-            <Routes>
-                <Route element={<Authentication />}>
-                    <Route path="/admin/" element={<Admin />}>
-                        <Route element={<Authorization permissions={[PERMISSIONS.CAN_VIEW_DASHBOARD]} />}>
-                            <Route exact path="dashboard" element={<Dashboard />} />
+            <AuthProvider>
+                <Routes>
+                    <Route element={<Authentication />}>
+                        <Route path="/admin/" element={<Admin />}>
+                            <Route element={<Authorization permissions={[PERMISSIONS.CAN_VIEW_DASHBOARD]} />}>
+                                <Route exact path="dashboard" element={<Dashboard />} />
+                            </Route>
+                            <Route exact path="items" element={<Items />} />
+                            <Route exact path="items/add" element={<AddItem />} />
+                            <Route exact path="bills" element={<Bills />} />
+                            <Route exact path="invoices" element={<Invoices />} />
+                            <Route exact path="members" element={<Members />} />
+                            <Route exact path="branches" element={<Branches />} />
+                            <Route exact path="stores/add" element={<AddStore />} />
                         </Route>
-                        <Route exact path="items" element={<Items />} />
-                        <Route exact path="items/add" element={<AddItem />} />
-                        <Route exact path="bills" element={<Bills />} />
-                        <Route exact path="invoices" element={<Invoices />} />
-                        <Route exact path="members" element={<Members />} />
-                        <Route exact path="branches" element={<Branches />} />
-                        <Route exact path="stores/add" element={<AddStore />} />
+
+                        <Route path="/" element={<Home />}>
+                            <Route exact path="/cashier" element={<Cashier />} />
+                            <Route exact path="/profile" element={<Profile />} />
+                        </Route>
                     </Route>
 
-                    <Route path="/" element={<Home />}>
-                        <Route exact path="/cashier" element={<Cashier />} />
-                        <Route exact path="/profile" element={<Profile />} />
-                    </Route>
-                </Route>
-
-                <Route exact path="/login" element={<Login />} />
-                <Route exact path="/signout" element={<SignOut />} />
-                <Route path="*" element={<Page404 />} />
-            </Routes>
+                    <Route exact path="/login" element={<Login />} />
+                    <Route exact path="/signout" element={<SignOut />} />
+                    <Route path="*" element={<Page404 />} />
+                </Routes>
+            </AuthProvider>
         </BrowserRouter>
     )
 }

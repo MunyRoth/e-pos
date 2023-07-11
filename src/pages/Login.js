@@ -1,4 +1,4 @@
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
@@ -7,7 +7,6 @@ const LOGIN_URL = '/api/login'
 
 export default function Login() {
     const { login } = useAuth();
-    const navigate = useNavigate();
 
     const userRef = useRef();
     const errRef = useRef();
@@ -17,8 +16,6 @@ export default function Login() {
         password: ""
     });
     const [errMsg, setErrMsg] = useState('');
-
-    const [data, setData] = useState({});
 
     const handleChange = e => {
         const {name, value, type, checked} = e.target;
@@ -32,24 +29,21 @@ export default function Login() {
     const handleSubmit = async e => {
         e.preventDefault();
 
-        // login("user", "k");
-        console.log(formData);
-
         try {
             const res = await axios.post(LOGIN_URL, JSON.stringify(formData),
                 {
                     headers: {
                         'Content-Type': 'application/json'
-                    },
-                    withCredentials: true
+                    }
                 });
-            console.log(JSON.stringify(res?.data))
+
+            login(res?.data, "user");
         } catch (err) {
-            if (!err?.res) {
+            if (!err?.response) {
                 setErrMsg('No Server Response');
-            } else if (err.res?.status === 400) {
+            } else if (err.response?.status === 400) {
                 setErrMsg('Missing Email or Password');
-            } else if (err.res?.status === 401) {
+            } else if (err.response?.status === 403) {
                 setErrMsg('Unauthorized');
             } else {
                 setErrMsg('Login Failed');
