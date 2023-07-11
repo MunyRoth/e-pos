@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import AuthContext from "../../contexts/AuthContext";
 
-import {userContext} from '../../../contexts/userContext';
 export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const redirectPath = location.state?.path || "/profile";
+    const redirectPath = location.state?.path || "/cashier";
     const [user, setUser] = useState({
         username: "",
         permissions: [],
     });
-    const login = (user) => {
-        console.log(user);
-        if (user === "admin") {
+    const login = (user, role) => {
+        console.log(role);
+        if (role === "admin") {
             setUser({ username: user, permissions: ["view_dashboard"] });
         } else {
             setUser({ username: user, permissions: ["view_profile"] });
@@ -22,5 +22,5 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser({ username: "", permissions: [] });
     };
-    return <userContext.Provider value={{user, login, logout}}>{children}</userContext.Provider>;
+    return <AuthContext.Provider value={{user, login, logout}}>{children}</AuthContext.Provider>;
 };

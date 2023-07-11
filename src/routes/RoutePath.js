@@ -1,5 +1,4 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import AuthWrapper from "../pages/AuthWrapper";
 import Admin from "../pages/admin";
 import Dashboard from "../pages/admin/dashboard";
 import Items from "../pages/admin/items";
@@ -16,15 +15,18 @@ import Login from "../pages/Login";
 import SignOut from "../pages/SignOut";
 import Page404 from "../pages/Page404";
 import Authentication from "../features/auth/authentication/Authentication";
+import Authorization from "../features/auth/authorization/Authorization";
+import PERMISSIONS from "../features/auth/permissions/Permissions";
 
 const RoutePath = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="test" element={<Authentication>Authentication</Authentication>} />
-                <Route element={<AuthWrapper />}>
+                <Route element={<Authentication />}>
                     <Route path="/admin/" element={<Admin />}>
-                        <Route exact path="dashboard" element={<Dashboard />} />
+                        <Route element={<Authorization permissions={[PERMISSIONS.CAN_VIEW_DASHBOARD]} />}>
+                            <Route exact path="dashboard" element={<Dashboard />} />
+                        </Route>
                         <Route exact path="items" element={<Items />} />
                         <Route exact path="items/add" element={<AddItem />} />
                         <Route exact path="bills" element={<Bills />} />
