@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 
-const LOGIN_URL = '/api/login'
+const LOGIN_URL = '/login'
 
 export default function Login() {
     const { login } = useAuth();
@@ -34,10 +34,10 @@ export default function Login() {
                 {
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    withCredentials: true
                 });
-
-            login(res?.data, "user");
+            login(res?.data.data.token, "admin");
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

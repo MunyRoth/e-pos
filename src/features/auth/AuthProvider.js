@@ -6,21 +6,20 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const redirectPath = location.state?.path || "/cashier";
-    const [user, setUser] = useState({
-        username: "",
-        permissions: [],
+    const [auth, setAuth] = useState({
+        token: '',
+        permissions: []
     });
-    const login = (user, role) => {
-        console.log(role);
+    const login = (token, role) => {
         if (role === "admin") {
-            setUser({ username: user, permissions: ["view_dashboard"] });
+            setAuth({ token: token, permissions: ["view_dashboard"] });
         } else {
-            setUser({ username: user, permissions: ["view_profile"] });
+            setAuth({ token: token, permissions: ["view_profile"] });
         }
         navigate(redirectPath, { replace: true });
     };
     const logout = () => {
-        setUser({ username: "", permissions: [] });
+        setAuth({ token: '', permissions: [] });
     };
-    return <AuthContext.Provider value={{user, login, logout}}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ auth, setAuth, login, logout}}>{children}</AuthContext.Provider>;
 };

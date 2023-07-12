@@ -19,6 +19,7 @@ import Authorization from "../features/auth/authorization/Authorization";
 import PERMISSIONS from "../features/auth/permissions/Permissions";
 import {AuthProvider} from "../features/auth/AuthProvider";
 import React from "react";
+import User from '../components/User'
 
 const RoutePath = () => {
     return (
@@ -40,13 +41,14 @@ const RoutePath = () => {
                         </Route>
 
                         <Route path="/" element={<Home />}>
-                            <Route exact path="/cashier" element={<Cashier />} />
-                            <Route exact path="/profile" element={<Profile />} />
+                            <Route exact path="cashier" element={<Cashier />} />
+                            <Route exact path="profile" element={<Profile />} />
+                            <Route exact path="signout" element={<SignOut />} />
+                            <Route exact path="user" element={<User />} />
                         </Route>
                     </Route>
 
                     <Route exact path="/login" element={<Login />} />
-                    <Route exact path="/signout" element={<SignOut />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
             </AuthProvider>
