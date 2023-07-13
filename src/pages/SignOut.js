@@ -1,21 +1,14 @@
-import {Navigate, useLocation} from 'react-router-dom';
+import useAuth from "../hooks/useAuth";
+import {useEffect} from "react";
 
 const SignOut = () => {
-    const location = useLocation(); // current location
+    const { logout } = useAuth();
 
-    localStorage.setItem("isLoggedIn", JSON.stringify(false));
-    localStorage.removeItem("token");
+    useEffect(() => {
+        logout();
+    }, []);
 
-    localStorage.removeItem("storeName");
-    localStorage.removeItem("storeId");
-
-    return (
-            <Navigate
-                to="/login"
-                replace
-                state={{ from: location }} // <-- pass location in route state
-            />
-        );
+    return (<></>);
 };
 
 export default SignOut;

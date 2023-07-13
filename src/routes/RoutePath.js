@@ -28,6 +28,7 @@ const RoutePath = () => {
                 <Routes>
                     <Route element={<Authentication />}>
                         <Route path="/admin/" element={<Admin />}>
+                            <Route exact path="cashier" element={<Cashier />} />
                             <Route element={<Authorization permissions={[PERMISSIONS.CAN_VIEW_DASHBOARD]} />}>
                                 <Route exact path="dashboard" element={<Dashboard />} />
                             </Route>
