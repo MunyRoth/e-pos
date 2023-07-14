@@ -1,5 +1,3 @@
-import './App.css';
-
 import RoutePath from "./routes/RoutePath";
 
 function App() {

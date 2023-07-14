@@ -41,15 +41,15 @@ const RoutePath = () => {
                             <Route exact path="stores/add" element={<AddStore />} />
                         </Route>
 
-                        <Route path="/" element={<Home />}>
+                        <Route element={<Home />}>
                             <Route exact path="cashier" element={<Cashier />} />
                             <Route exact path="profile" element={<Profile />} />
                             <Route exact path="signout" element={<SignOut />} />
-                            <Route exact path="user" element={<User />} />
                         </Route>
                     </Route>
 
-                    <Route exact path="/login" element={<Login />} />
+                    <Route exact path="user" element={<User />} />
+                    <Route exact path="login" element={<Login />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
             </AuthProvider>

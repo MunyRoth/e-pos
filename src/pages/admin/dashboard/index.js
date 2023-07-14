@@ -181,7 +181,7 @@ export default function Dashboard() {
                                 className="divide-y divide-gray-200 dark:divide-gray-700">
 
                                 {products.map(product => (
-                                    <li className="py-3 sm:py-4">
+                                    <li className="py-3 sm:py-4" key={product.id}>
                                         <div className="flex items-center space-x-4">
                                             <div className="flex-shrink-0">
                                                 <img

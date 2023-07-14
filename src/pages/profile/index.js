@@ -1,36 +1,35 @@
 import {useEffect, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export default function Profile() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const axiosPrivate = useAxiosPrivate();
 
-    let token = localStorage.getItem('token');
-    const [name, setName] = useState('');
-    const [avatar, setAvatar] = useState('');
-    const [email, setEmail] = useState('');
-    const [role, setRole] = useState('');
-
-    const getProfile = async e => {
-        try {
-            const response = await fetch('http://localhost:8000/api/profile', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // eslint-disable-next-line no-use-before-define
-                    'Authorization': 'Bearer ' + token
-                }
-            });
-            const data = await response.json();
-
-            setName(data.data.name);
-            setAvatar(data.data.avatar);
-            setRole(data.data.role.name_km);
-            setEmail(data.data.email);
-
-        } catch (error) {
-        }
-    }
+    const [user, setUser] = useState();
 
     useEffect(() => {
-        getProfile();
+        let isMounted = true;
+        const controller = new AbortController();
+
+        const getUser = async  () => {
+            try {
+                const res = await axiosPrivate.get('/profile', {
+                    signal: controller.signal
+                });
+                isMounted && setUser(res.data.data)
+            } catch (err) {
+                // navigate('/login', {state: {from: location}, replace: true});
+            }
+        }
+
+        getUser();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
     }, []);
 
     return (
@@ -43,15 +42,15 @@ export default function Profile() {
                 <dl className="divide-y divide-gray-100">
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">ឈ្មោះ</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{name}</dd>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{user?.name}</dd>
                     </div>
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">តួនាទី</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{role}</dd>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{user?.role.name_km}</dd>
                     </div>
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">អាសយដ្ឋានអ៊ីម៉ែល</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{email}</dd>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{user?.email}</dd>
                     </div>
                 </dl>
             </div>
