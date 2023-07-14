@@ -1,10 +1,7 @@
 import {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 export default function Profile() {
-    const navigate = useNavigate();
-    const location = useLocation();
     const axiosPrivate = useAxiosPrivate();
 
     const [user, setUser] = useState();
@@ -20,7 +17,7 @@ export default function Profile() {
                 });
                 isMounted && setUser(res.data.data)
             } catch (err) {
-                // navigate('/login', {state: {from: location}, replace: true});
+
             }
         }
 

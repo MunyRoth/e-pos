@@ -1,14 +1,14 @@
 import useAuth from "../hooks/useAuth";
 import {useEffect} from "react";
 
-const SignOut = () => {
-    const { logout } = useAuth();
+const Logout = () => {
+    const { auth, logout } = useAuth();
 
     useEffect(() => {
-        logout();
+        logout(auth.token);
     }, []);
 
     return (<></>);
 };
 
-export default SignOut;
+export default Logout;

@@ -12,14 +12,14 @@ import Home from "../pages/home";
 import Cashier from "../pages/cashier";
 import Profile from "../pages/profile";
 import Login from "../pages/Login";
-import SignOut from "../pages/SignOut";
+import Logout from "../pages/Logout";
 import Page404 from "../pages/Page404";
 import Authentication from "../features/auth/authentication/Authentication";
 import Authorization from "../features/auth/authorization/Authorization";
 import PERMISSIONS from "../features/auth/permissions/Permissions";
 import {AuthProvider} from "../features/auth/AuthProvider";
 import React from "react";
-import User from '../components/User'
+import CheckAuth from "../pages/CheckAuth";
 
 const RoutePath = () => {
     return (
@@ -28,6 +28,7 @@ const RoutePath = () => {
                 <Routes>
                     <Route element={<Authentication />}>
                         <Route path="/admin/" element={<Admin />}>
+                            <Route exact path="profile" element={<Profile />} />
                             <Route exact path="cashier" element={<Cashier />} />
                             <Route element={<Authorization permissions={[PERMISSIONS.CAN_VIEW_DASHBOARD]} />}>
                                 <Route exact path="dashboard" element={<Dashboard />} />
@@ -44,12 +45,12 @@ const RoutePath = () => {
                         <Route element={<Home />}>
                             <Route exact path="cashier" element={<Cashier />} />
                             <Route exact path="profile" element={<Profile />} />
-                            <Route exact path="signout" element={<SignOut />} />
+                            <Route exact path="signout" element={<Logout />} />
                         </Route>
                     </Route>
 
-                    <Route exact path="user" element={<User />} />
                     <Route exact path="login" element={<Login />} />
+                    <Route exact path="/" element={<CheckAuth />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
             </AuthProvider>

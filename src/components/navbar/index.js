@@ -1,6 +1,7 @@
 import {Fragment, useEffect, useState} from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -8,35 +9,31 @@ function classNames(...classes) {
 
 export default function Navbar() {
 
-    let token = localStorage.getItem('token');
-    let store = localStorage.getItem('storeName');
+    const axiosPrivate = useAxiosPrivate();
 
-    const [name, setName] = useState('');
-    const [avatar, setAvatar] = useState('');
-    const [role, setRole] = useState('');
-
-    const getProfile = async e => {
-        try {
-            const response = await fetch('http://localhost:8000/api/profile', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // eslint-disable-next-line no-use-before-define
-                    'Authorization': 'Bearer ' + token
-                }
-            });
-            const data = await response.json();
-
-            setName(data.data.name);
-            setAvatar(data.data.avatar);
-            setRole(data.data.role.name_km);
-
-        } catch (error) {
-        }
-    }
+    const [user, setUser] = useState();
 
     useEffect(() => {
-        getProfile();
+        let isMounted = true;
+        const controller = new AbortController();
+
+        const getUser = async  () => {
+            try {
+                const res = await axiosPrivate.get('/profile', {
+                    signal: controller.signal
+                });
+                isMounted && setUser(res.data.data)
+            } catch (err) {
+
+            }
+        }
+
+        getUser();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
     }, []);
 
     return (
@@ -61,7 +58,7 @@ export default function Navbar() {
 
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                {store}
+                                {user?.stores[0]?.name_km}
                             </div>
                         </div>
 
@@ -72,13 +69,13 @@ export default function Navbar() {
                                     <div className="flex items-center space-x-4">
                                         <img
                                             className="h-10 w-10 rounded-full"
-                                            src={avatar}
+                                            src={user?.avatar}
                                             alt="profile"
                                         />
                                         <div className="font-medium dark:text-white">
-                                            <div>{name}</div>
+                                            <div>{user?.name}</div>
                                             <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                {role}
+                                                {user?.role.name_km}
                                             </div>
                                         </div>
                                     </div>
@@ -98,7 +95,7 @@ export default function Navbar() {
                                     <Menu.Item>
                                         {({ active }) => (
                                             <Link
-                                                to="/profile"
+                                                to={user?.role.name_en === 'Owner' ? '/admin/profile' : '/profile'}
                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                             >
                                                 គណនី

@@ -1,5 +1,5 @@
-import {Link} from "react-router-dom";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 
@@ -37,7 +37,7 @@ export default function Login() {
                     },
                     withCredentials: true
                 });
-            login(res?.data.data.token, "admin");
+            login(res?.data.data.token, "Owner", 0);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

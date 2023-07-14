@@ -1,20 +1,49 @@
 import React from "react";
-import {Navigate, Outlet, useLocation} from "react-router-dom";
+import { Outlet, useLocation, useNavigate} from "react-router-dom";
 
 import useAuth from "../../../hooks/useAuth";
+import axios from "../../../api/axios";
 
 const Authentication = () => {
-    const { auth } = useAuth();
+    const { auth, setUser } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
 
     let token = localStorage.getItem("token");
 
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getUser = async  () => {
+        try {
+            const res = await axios.get('/profile', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+            });
+            isMounted && setUser(token, res.data.data.role.name_en)
+        } catch (err) {
+            navigate('/login', {state: {from: location}, replace: true});
+        }
+    }
+
+    if (auth?.token) {
+        return (<Outlet />)
+    } else if (token) {
+            getUser();
+            return () => {
+                isMounted = false;
+                controller.abort();
+            }
+    } else {
+        navigate('/login', {state: {from: location}, replace: true});
+    }
+
     return (
-        auth?.token
-            ? <Outlet />
-            : token
-                ? <Navigate to="/user" state={{ from: location }} replace />
-                : <Navigate to="/login" state={{ from: location }} replace />
+        <></>
     )
 };
 
