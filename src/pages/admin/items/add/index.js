@@ -21,7 +21,7 @@ class AddItem extends Component {
 
         data.append(
             "store_id",
-            this.state.store_id,
+            1,
         );
         data.append(
             "UPC",

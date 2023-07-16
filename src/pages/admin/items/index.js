@@ -1,35 +1,39 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function Products() {
+    const axiosPrivate = useAxiosPrivate();
 
-    let token = localStorage.getItem('token');
-    let storeId = parseInt(localStorage.getItem('storeId'));
-
-    const [items, setItems] = useState([]);
-
-    const getItems = async e => {
-        try {
-            const response = await fetch('http://localhost:8000/api/items/'+storeId, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // eslint-disable-next-line no-use-before-define
-                    'Authorization': 'Bearer ' + token
-                }
-            });
-            const data = await response.json();
-            setItems(data.data);
-
-        } catch (error) {
-        }
-    }
+    const [items, setItems] = useState();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        getItems();
-        // setItems(data);
+        let isMounted = true;
+        const controller = new AbortController();
+
+        const getUser = async  () => {
+            try {
+                const res = await axiosPrivate.get('/items/1', {
+                    signal: controller.signal
+                });
+                isMounted && setItems(res.data.data);
+                setIsLoading(false);
+                console.log(res.data.data);
+            } catch (err) {
+
+            }
+        }
+
+        getUser();
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        }
     }, []);
 
+    if (isLoading) return (<></>)
     return (
         <>
             <div className="flex items-center justify-between dark:bg-gray-900">

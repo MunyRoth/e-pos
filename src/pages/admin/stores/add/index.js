@@ -13,8 +13,8 @@ export default function AddStore() {
     const errRef = useRef();
 
     const [formData, setFormData] = useState({
-        name_km: "a",
-        address_km: "a"
+        name_km: "",
+        address_km: ""
     });
     const [errMsg, setErrMsg] = useState('');
 
@@ -35,18 +35,18 @@ export default function AddStore() {
             const res = await axios.post('/stores', JSON.stringify(formData),
                 {
                     headers: {
+                        'Accept': 'application/json',
                         'Authorization': `Bearer ${auth.token}`,
                         'Content-Type': 'application/json'
-                    },
-                    withCredentials: true
+                    }
                 });
             localStorage.setItem("storeName", res.data.data.name_km);
             localStorage.setItem("storeId", res.data.data.id);
-            navigate(location.state?.path || "/login", { replace: true });
+            navigate(location.state?.path || "/admin/dashboard", { replace: true });
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
-            } else if (err.response?.status === 400) {
+            } else if (err.response?.status === 422) {
                 setErrMsg('Validation Fail');
             } else {
                 setErrMsg('Failed');

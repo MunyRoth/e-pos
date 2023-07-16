@@ -21,8 +21,7 @@ const Authentication = () => {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                },
-                withCredentials: true
+                }
             });
             isMounted && setUser(token, res.data.data.role.name_en)
         } catch (err) {
