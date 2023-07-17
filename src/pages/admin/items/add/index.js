@@ -1,60 +1,66 @@
-import axios from "axios";
-import React, { Component } from 'react';
-import {Navigate} from "react-router-dom";
+import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
+import {useRef, useState} from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 
-class AddItem extends Component {
+export default function AddItem() {
 
-    state = {
-        token: localStorage.getItem('token'),
-        status: 0,
+    console.log("on");
+    const navigate = useNavigate();
+    const location = useLocation();
+    const axiosPrivate = useAxiosPrivate();
 
-        store_id: localStorage.getItem('storeId'),
-        UPC: null,
-        name: null
-    };
+    const errRef = useRef();
 
-    handleSubmit = async e => {
-        e.preventDefault();
+    const [formData, setFormData] = useState({
+        store_id: 1,
+        UPC: "",
+        name: ""
+    });
+    const [errMsg, setErrMsg] = useState('');
 
-        // Create an object of formData
-        const data = new FormData();
-
-        data.append(
-            "store_id",
-            1,
-        );
-        data.append(
-            "UPC",
-            this.state.UPC,
-        );
-        data.append(
-            "name",
-            this.state.name,
-        );
-
-        // make a POST request to the File Upload API with the FormData object and Rapid API headers
-        axios
-            .post("http://localhost:8000/api/items", data, {
-                headers: {
-                    'Authorization': 'Bearer ' + this.state.token,
-                    'Content-Type': 'multipart/form-data'
-                },
-            })
-            .then((response) => {
-                // handle the response
-                this.setState({status: response.data.status});
-            })
-            .catch((error) => {
-                // handle errors
-            });
+    const handleChange = e => {
+        const {name, value, type, checked} = e.target;
+        setFormData(prevFormData => {
+            return {
+                ...prevFormData,
+                [name]: type === "checkbox" ? checked : value
+            }
+        });
     }
 
-    render() {
-        if (this.state.status === 201) {
-            return (
-                <Navigate to="/admin/items" />
-            );
+    const handleSubmit = async e => {
+        e.preventDefault();
+        console.log("start");
+
+        // Create an object of formData
+        // const data = new FormData();
+        //
+        // data.append(
+        //     "store_id",
+        //     1,
+        // );
+        // data.append(
+        //     "UPC",
+        //     e.target.value.UPC
+        // );
+        // data.append(
+        //     "name",
+        //     e.target.value.name,
+        // );
+
+        let isMounted = true;
+        const controller = new AbortController();
+
+        try {
+            const res = await axiosPrivate.post('/items', formData , {
+                signal: controller.signal
+            });
+            isMounted && navigate(location.state?.path || "/admin/items", { replace: true });
+        } catch (err) {
+
         }
+    }
+
         return (
             <>
                 <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -66,7 +72,7 @@ class AddItem extends Component {
 
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         {/* eslint-disable-next-line no-undef */}
-                        <form className="space-y-6" onSubmit={this.handleSubmit}>
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label className="block text-sm font-medium leading-6 text-gray-900">
                                     ឈ្មោះទំនិញ
@@ -74,9 +80,11 @@ class AddItem extends Component {
                                 <div className="mt-2">
                                     <input
                                         type="text"
-                                        onChange={e => {
-                                            this.setState({name: e.target.value});
-                                        }}
+                                        id="name"
+                                        name="name"
+                                        autoComplete="false"
+                                        value={formData.name}
+                                        onChange={handleChange}
 
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
@@ -93,9 +101,11 @@ class AddItem extends Component {
                                 <div className="mt-2">
                                     <input
                                         type="text"
-                                        onChange={e => {
-                                            this.setState({UPC: parseInt(e.target.value)});
-                                        }}
+                                        id="UPC"
+                                        name="UPC"
+                                        autoComplete="false"
+                                        value={formData.UPC}
+                                        onChange={handleChange}
 
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
@@ -115,7 +125,5 @@ class AddItem extends Component {
                 </div>
             </>
         )
-    }
-}
 
-export default AddItem;
+}

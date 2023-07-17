@@ -19,7 +19,6 @@ export default function Products() {
                 });
                 isMounted && setItems(res.data.data);
                 setIsLoading(false);
-                console.log(res.data.data);
             } catch (err) {
 
             }
