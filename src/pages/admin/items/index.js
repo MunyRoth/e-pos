@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import Cookies from "js-cookie";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function Products() {
@@ -14,7 +15,7 @@ export default function Products() {
 
         const getUser = async  () => {
             try {
-                const res = await axiosPrivate.get('/items/1', {
+                const res = await axiosPrivate.get('/items/'+Cookies.get('storeId'), {
                     signal: controller.signal
                 });
                 isMounted && setItems(res.data.data);
@@ -32,7 +33,6 @@ export default function Products() {
         }
     }, []);
 
-    if (isLoading) return (<></>)
     return (
         <>
             <div className="flex items-center justify-between dark:bg-gray-900">
@@ -86,7 +86,9 @@ export default function Products() {
                     </tr>
                     </thead>
                     <tbody>
-                    {items.map(item => (
+                    {isLoading
+                        ? <>Loading...</>
+                        : items.map(item => (
                         <tr className="border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600">
                             <td className="w-4 p-4">
                                 <div className="flex items-center">

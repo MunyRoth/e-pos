@@ -37,7 +37,7 @@ export default function Login() {
                     },
                     withCredentials: true
                 });
-            login(res?.data.data.token, "Owner", 0);
+            login(res?.data.data.token, res?.data.data.role.name_en, res?.data.data.stores);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -50,50 +50,6 @@ export default function Login() {
             }
             errRef.current.focus();
         }
-        // try {
-        //     const response = await fetch('http://localhost:8000/api/login', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(data)
-        //     });
-        //     const result = await response.json();
-        //
-        //     if (result.status === 200) {
-        //         localStorage.setItem("isLoggedIn", JSON.stringify(true));
-        //         localStorage.setItem("token", result.data.token);
-        //
-        //         try {
-        //             const response = await fetch('http://localhost:8000/api/profile', {
-        //                 method: 'GET',
-        //                 headers: {
-        //                     'Content-Type': 'application/json',
-        //                     // eslint-disable-next-line no-use-before-define
-        //                     'Authorization': 'Bearer ' + result.data.token
-        //                 }
-        //             });
-        //             const user = await response.json();
-        //
-        //             if (user.data.role_id === 1 || user.data.role_id === 2) {
-        //                 if (user.data.stores.length === 0) navigate('/admin/stores/add');
-        //                 else navigate('/admin/dashboard');
-        //             } else {
-        //                 navigate('/cashier');
-        //             }
-        //         } catch (error) {
-        //             setIsError(true);
-        //             setErrorMessage('error profile');
-        //         }
-        //     } else {
-        //         setIsError(true);
-        //         setErrorMessage(result.message);
-        //     }
-        //
-        // } catch (error) {
-        //     setIsError(true);
-        //     setErrorMessage('error');
-        // }
     }
 
     useEffect(() => {

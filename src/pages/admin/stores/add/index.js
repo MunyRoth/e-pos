@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import useAuth from "../../../../hooks/useAuth";
 import axios from "../../../../api/axios";
 
@@ -40,8 +41,7 @@ export default function AddStore() {
                         'Content-Type': 'application/json'
                     }
                 });
-            localStorage.setItem("storeName", res.data.data.name_km);
-            localStorage.setItem("storeId", res.data.data.id);
+            Cookies.set('storeId', res.data.data.id, { expires: 15 });
             navigate(location.state?.path || "/admin/dashboard", { replace: true });
         } catch (err) {
             if (!err?.response) {
@@ -52,8 +52,6 @@ export default function AddStore() {
                 setErrMsg('Failed');
             }
             errRef.current.focus();
-            console.log(err)
-            console.log(auth)
         }
     }
 

@@ -1,10 +1,11 @@
-import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
 import {useRef, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
+import Cookies from "js-cookie";
+
+import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
 
 export default function AddItem() {
 
-    console.log("on");
     const navigate = useNavigate();
     const location = useLocation();
     const axiosPrivate = useAxiosPrivate();
@@ -12,7 +13,7 @@ export default function AddItem() {
     const errRef = useRef();
 
     const [formData, setFormData] = useState({
-        store_id: 1,
+        store_id: Cookies.get('storeId'),
         UPC: "",
         name: ""
     });
@@ -30,7 +31,6 @@ export default function AddItem() {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        console.log("start");
 
         // Create an object of formData
         // const data = new FormData();
