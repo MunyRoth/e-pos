@@ -38,11 +38,11 @@ export default function Products() {
             <div className="flex items-center justify-between dark:bg-gray-900">
                 <h2 className="m-5 text-4xl font-bold text-gray-900 dark:text-white">ទំនិញ</h2>
                 <Link
-                    to="add"
+                    to="stock_in"
                     type="button"
                     className="rounded-lg bg-blue-700 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-50 shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                 >
-                    បន្ថែមទំនិញ
+                    បន្ថែមទំនិញទៅក្នុងស្តុក
                 </Link>
                 <label htmlFor="table-search" className="sr-only">ស្វែងរក</label>
                 <div className="relative">
@@ -64,14 +64,7 @@ export default function Products() {
                     <thead
                         className="text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" className="p-4 rounded-l-lg">
-                            <div className="flex items-center">
-                                <input id="checkbox-all-search" type="checkbox"
-                                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
-                            </div>
-                        </th>
-                        <th scope="col" className="px-6 py-3">
+                        <th scope="col" className="px-6 py-3 rounded-l-lg">
                             ឈ្មោះ
                         </th>
                         <th scope="col" className="px-6 py-3">
@@ -90,13 +83,6 @@ export default function Products() {
                         ? <>Loading...</>
                         : items.map(item => (
                         <tr className="border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600">
-                            <td className="w-4 p-4">
-                                <div className="flex items-center">
-                                    <input id="checkbox-table-search-1" type="checkbox"
-                                           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-                                    <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
-                                </div>
-                            </td>
                             <th scope="row"
                                 className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                 <img className="w-10 h-10"

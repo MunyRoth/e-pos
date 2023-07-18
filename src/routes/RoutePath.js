@@ -20,6 +20,7 @@ import PERMISSIONS from "../features/auth/permissions/Permissions";
 import {AuthProvider} from "../features/auth/AuthProvider";
 import React from "react";
 import CheckAuth from "../pages/CheckAuth";
+import StockIn from "../pages/admin/items/StockIn"
 
 const RoutePath = () => {
     return (
@@ -34,7 +35,8 @@ const RoutePath = () => {
                                 <Route exact path="dashboard" element={<Dashboard />} />
                             </Route>
                             <Route exact path="items" element={<Items />} />
-                            <Route exact path="items/add" element={<AddItem />} />
+                            <Route exact path="items/stock_in" element={<StockIn />} />
+                            <Route exact path="items/stock_in/add" element={<AddItem />} />
                             <Route exact path="bills" element={<Bills />} />
                             <Route exact path="invoices" element={<Invoices />} />
                             <Route exact path="members" element={<Members />} />
