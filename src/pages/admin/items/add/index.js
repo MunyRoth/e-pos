@@ -57,7 +57,7 @@ export default function AddItem() {
             const res = await axiosPrivate.post('/items', formData , {
                 signal: controller.signal
             });
-            isMounted && navigate(location.state?.path || "/admin/items", { replace: true });
+            isMounted && navigate(location.state?.path || "/admin/items/stock_in", { replace: true });
         } catch (err) {
             setIsLoading(false);
         }
