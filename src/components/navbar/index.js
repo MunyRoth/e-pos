@@ -37,7 +37,7 @@ export default function Navbar() {
     }, []);
 
     return (
-        <Disclosure as="nav" className="px-4 border-b-2 dark:bg-gray-800">
+        <Disclosure as="nav" className="px-4 border-b dark:bg-gray-800">
             {({ open }) => (
                 <>
                     <div className="relative flex h-16 items-center justify-between">
@@ -84,6 +84,17 @@ export default function Navbar() {
                                             </Link>
                                         )}
                                     </Menu.Item>
+                                    {(user?.role.name_en === 'Admin' || user?.role.name_en === 'Owner')
+                                    && <Menu.Item>
+                                            {({ active }) => (
+                                                <Link
+                                                    to="/admin/dashboard"
+                                                    className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                >
+                                                    ផ្ទាំងទិន្នន័យ
+                                                </Link>
+                                            )}
+                                        </Menu.Item>}
                                     <Menu.Item>
                                         {({ active }) => (
                                             <Link
