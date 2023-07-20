@@ -9,8 +9,9 @@ export default function StockIn() {
     const location = useLocation();
     const axiosPrivate = useAxiosPrivate();
 
-    const [items, setItems] = useState();
+    const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isEmpty, setIsEmpty] = useState(false);
     const [isLoadingOnPay, setIsLoadingOnPay] = useState(false);
 
     const [itemsProcessing, setItemsProcessing] = useState([]);
@@ -74,11 +75,11 @@ export default function StockIn() {
         try {
             const res = await axiosPrivate.post('/stock_in',
                 {
-                items: itemsProcessing
-            },
+                    items: itemsProcessing
+                },
                 {
-                signal: controller.signal
-            });
+                    signal: controller.signal
+                });
             isMounted && navigate(location.state?.path || "/admin/items", { replace: true });
         } catch (err) {
             setIsLoadingOnPay(false);
@@ -89,19 +90,20 @@ export default function StockIn() {
         let isMounted = true;
         const controller = new AbortController();
 
-        const getUser = async  () => {
+        const getItems = async  () => {
             try {
-                const res = await axiosPrivate.get('/items/'+Cookies.get('storeId'), {
+                const res = await axiosPrivate.get('/items/store/'+Cookies.get('storeId'), {
                     signal: controller.signal
                 });
                 isMounted && setItems(res.data.data);
+                res.data.data.length === 0 && setIsEmpty(true);
                 setIsLoading(false);
             } catch (err) {
 
             }
         }
 
-        getUser();
+        getItems();
 
         return () => {
             isMounted = false;
@@ -160,31 +162,33 @@ export default function StockIn() {
                 <div>
                     <div className="grid grid-cols-4 gap-4">
                         {isLoading
-                            ? <>Loading...</>
-                            : items.map(item => (
-                                    <div
-                                        className="w-48 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                        <img className="p-5 rounded-t-lg"
-                                             src={item.image_url}
-                                             alt={item.name}
-                                        />
-                                        <div className="px-3 pb-3">
-                                            <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                                                {item.name}
-                                            </h5>
-                                            <div className="flex items-center justify-between">
-                                                <span className="text-xl font-bold text-gray-900 dark:text-white">${item.price}</span>
-                                                <button
-                                                    onClick={() => handleAddItem(item)}
-                                                    className="text-white bg-blue-700 hover:bg-blue-800 active:ring-4 active:outline-none active:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                                >
-                                                    បន្ថែម
-                                                </button>
+                            ? <>កំពុងផ្ទុក...</>
+                            : isEmpty
+                                ? <>មិនមានទំនិញ</>
+                                : items.map(item => (
+                                        <div
+                                            className="w-48 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                                            <img className="p-5 rounded-t-lg"
+                                                 src={item.image_url}
+                                                 alt={item.name}
+                                            />
+                                            <div className="px-3 pb-3">
+                                                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                                                    {item.name}
+                                                </h5>
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-xl font-bold text-gray-900 dark:text-white">${item.price}</span>
+                                                    <button
+                                                        onClick={() => handleAddItem(item)}
+                                                        className="text-white bg-blue-700 hover:bg-blue-800 active:ring-4 active:outline-none active:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                                    >
+                                                        បន្ថែម
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )
-                            )}
+                                    )
+                                )}
                     </div>
                 </div>
                 <div className="flow-root">
