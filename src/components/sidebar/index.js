@@ -205,11 +205,11 @@ export default class Sidebar extends Component {
                     </div>
                 </aside>
 
-                <div className="h-screen sm:ml-64">
-                    <Navbar />
-                    <div className="px-4 pb-4">
+                <div className="relative h-screen sm:ml-64">
+                    <div className="absolute top-0 pt-16 px-4 pb-4 h-full w-full">
                         <Outlet/>
                     </div>
+                    <Navbar />
                 </div>
             </>
         )
