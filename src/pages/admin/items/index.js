@@ -1,8 +1,8 @@
-import {Fragment, useEffect, useRef, useState} from 'react'
+import {Fragment, useEffect, useRef, useState} from 'react';
 import {Link} from "react-router-dom";
 import Cookies from "js-cookie";
-import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { Dialog, Transition } from '@headlessui/react';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export default function Items() {
@@ -16,8 +16,6 @@ export default function Items() {
     const [isLoading, setIsLoading] = useState(true);
     const [isEmpty, setIsEmpty] = useState(false);
 
-    const [refresh, setRefresh] = useState(false);
-
     const handleDelete = async id => {
         const controller = new AbortController();
 
@@ -25,8 +23,8 @@ export default function Items() {
             const res = await axiosPrivate.delete('/items/'+id, {
                 signal: controller.signal
             });
+            setItems(items.filter(item => item.id !== id ));
             setOpenModalDelete(false);
-            setRefresh(prevState => !prevState);
         } catch (err) {
 
         }
@@ -55,7 +53,7 @@ export default function Items() {
             isMounted = false;
             controller.abort();
         }
-    }, [refresh]);
+    }, []);
 
     return (
         <>
@@ -208,12 +206,11 @@ export default function Items() {
                                             </div>
                                             <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                                 <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                                    Deactivate account
+                                                    លុបទំនិញ
                                                 </Dialog.Title>
                                                 <div className="mt-2">
                                                     <p className="text-sm text-gray-500">
-                                                        Are you sure you want to deactivate your account? All of your data will be permanently
-                                                        removed. This action cannot be undone.
+                                                        តើអ្នកពិតជាចង់លុបទំនិញនេះ? ទំនិញនឹងលុបចេញ សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។
                                                     </p>
                                                 </div>
                                             </div>
@@ -233,7 +230,7 @@ export default function Items() {
                                             onClick={() => setOpenModalDelete(false)}
                                             ref={cancelModalDeleteRef}
                                         >
-                                            Cancel
+                                            បោះបង់
                                         </button>
                                     </div>
                                 </Dialog.Panel>
