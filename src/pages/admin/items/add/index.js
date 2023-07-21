@@ -11,44 +11,43 @@ export default function AddItem() {
     const axiosPrivate = useAxiosPrivate();
 
     const errRef = useRef();
+    const [errMsg, setErrMsg] = useState('');
 
     const [isLoading, setIsLoading] = useState(false);
-    const [formData, setFormData] = useState({
+    const [isImage, setIsImage] = useState(false);
+    const [imageURL, setImageURL] = useState("");
+    const [data, setData] = useState({
         store_id: Cookies.get('storeId'),
+        image: null,
         UPC: "",
         name: ""
     });
-    const [errMsg, setErrMsg] = useState('');
 
     const handleChange = e => {
-        const {name, value, type, checked} = e.target;
-        setFormData(prevFormData => {
+        const {name, value, type, files} = e.target;
+        setData(prevFormData => {
             return {
                 ...prevFormData,
-                [name]: type === "checkbox" ? checked : value
+                [name]: type === "file" ? files[0] : value
             }
         });
+
+        if (files && files[0]) {
+            setImageURL(URL.createObjectURL(e.target.files[0]));
+            setIsImage(true);
+        }
     }
 
     const handleSubmit = async e => {
         e.preventDefault();
         setIsLoading(true);
 
-        // Create an object of formData
-        // const data = new FormData();
-        //
-        // data.append(
-        //     "store_id",
-        //     1,
-        // );
-        // data.append(
-        //     "UPC",
-        //     e.target.value.UPC
-        // );
-        // data.append(
-        //     "name",
-        //     e.target.value.name,
-        // );
+        // Create an object of data
+        const formData = new FormData();
+        formData.append("store_id", Cookies.get('storeId'));
+        formData.append("image", data.image);
+        formData.append("UPC", data.UPC);
+        formData.append("name", data.name);
 
         let isMounted = true;
         const controller = new AbortController();
@@ -73,18 +72,60 @@ export default function AddItem() {
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 {/* eslint-disable-next-line no-undef */}
-                <form className="space-y-6" onSubmit={handleSubmit}>
+                <form
+                    encType="multipart/form-data"
+                    className="space-y-6"
+                    onSubmit={handleSubmit}>
+
+                    <div>
+                        <label className="block text-sm font-medium leading-6 text-gray-900">
+                            រូបភាព
+                        </label>
+                        <div className="flex items-center justify-center w-full">
+                            <div className="w-full h-64">
+                                <label htmlFor="image"
+                                       className="flex items-center justify-center w-full h-full">
+                                    {isImage ? (
+                                        <img src={imageURL} alt="image" className="h-full rounded-lg"/>
+                                    ) : (
+                                        <div
+
+                                            className="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                            <svg aria-hidden="true" className="w-10 h-10 mb-3 text-gray-400" fill="none"
+                                                 stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                            </svg>
+                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or
+                                                drag and drop</p>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                JPG or PNG (MAX. 800x400px)
+                                            </p>
+                                        </div>
+                                    )}
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        name="image"
+                                        className="hidden" accept=".png, .jpg, .jpeg"
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <div>
                         <label className="block text-sm font-medium leading-6 text-gray-900">
                             ឈ្មោះទំនិញ
                         </label>
-                        <div className="mt-2">
+                        <div className="">
                             <input
                                 type="text"
                                 id="name"
                                 name="name"
                                 autoComplete="false"
-                                value={formData.name}
+                                value={data.name}
                                 onChange={handleChange}
 
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -99,13 +140,13 @@ export default function AddItem() {
                                 UPC
                             </label>
                         </div>
-                        <div className="mt-2">
+                        <div className="">
                             <input
                                 type="text"
                                 id="UPC"
                                 name="UPC"
                                 autoComplete="false"
-                                value={formData.UPC}
+                                value={data.UPC}
                                 onChange={handleChange}
 
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

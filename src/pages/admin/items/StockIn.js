@@ -123,10 +123,14 @@ export default function StockIn() {
                                 : items.map(item => (
                                         <div
                                             className="w-48 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                                            <img className="p-5 rounded-t-lg"
-                                                 src={item.image_url}
-                                                 alt={item.name}
-                                            />
+                                            <div className="p-5 flex justify-center">
+                                                <div className="flex items-center h-40 w-40 overflow-hidden">
+                                                    <img className="rounded-md"
+                                                         src={item.image_url}
+                                                         alt={item.name}
+                                                    />
+                                                </div>
+                                            </div>
                                             <div className="px-3 pb-3">
                                                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                                                     {item.name}
