@@ -1,49 +1,60 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import useAuth from "../../../../hooks/useAuth";
-import axios from "../../../../api/axios";
+import useAxiosPrivate from "../../../../hooks/useAxiosPrivate";
 
 export default function AddStore() {
 
     const navigate = useNavigate();
     const location = useLocation();
-
-    const { auth } = useAuth();
+    const axiosPrivate = useAxiosPrivate();
 
     const errRef = useRef();
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const [formData, setFormData] = useState({
+    const [data, setData] = useState({
+        image: null,
         name_km: "",
         address_km: ""
     });
     const [errMsg, setErrMsg] = useState('');
 
+    const [isImage, setIsImage] = useState(false);
+    const [imageURL, setImageURL] = useState("");
+
     const handleChange = e => {
-        const {name, value, type, checked} = e.target;
-        setFormData(prevFormData => {
+        const {name, value, type, files} = e.target;
+        setData(prevFormData => {
             return {
                 ...prevFormData,
-                [name]: type === "checkbox" ? checked : value
+                [name]: type === "file" ? files[0] : value
             }
         });
+
+        if (files && files[0]) {
+            setImageURL(URL.createObjectURL(e.target.files[0]));
+            setIsImage(true);
+        }
     }
 
     const handleSubmit = async e => {
         e.preventDefault();
         setIsLoading(true);
 
+        const formData = new FormData();
+        formData.append("logo", data.image);
+        formData.append("name_km", data.name_km);
+        formData.append("address_km", data.address_km);
+
+        let isMounted = true;
+        const controller = new AbortController();
+
         try {
-            const res = await axios.post('/stores', JSON.stringify(formData),
-                {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${auth.token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
+            const res = await axiosPrivate.post('/stores', formData, {
+                signal: controller.signal
+            });
+            isMounted && console.log(res.data.data)
             Cookies.set('storeId', res.data.data.id, { expires: 15 });
             navigate(location.state?.path || "/admin/dashboard", { replace: true });
         } catch (err) {
@@ -60,7 +71,7 @@ export default function AddStore() {
 
     useEffect(() => {
         setErrMsg('');
-    }, [formData])
+    }, [data])
 
     return (
         <>
@@ -73,25 +84,44 @@ export default function AddStore() {
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" onSubmit={handleSubmit}>
-                        {/*<div>*/}
-                        {/*    <label className="block text-sm font-medium leading-6 text-gray-900">*/}
-                        {/*        រូបហាង*/}
-                        {/*    </label>*/}
-                        {/*    <div className="mt-2">*/}
-                        {/*        <input*/}
-                        {/*            className="block w-full rounded-md border text-gray-900 text-sm border-gray-300 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"*/}
-                        {/*            aria-describedby="file_input_help"*/}
-                        {/*            type="file"*/}
-                        {/*            onChange={e => {*/}
-                        {/*                    this.setState({logo: e.target.files[0]});*/}
-                        {/*                }*/}
-                        {/*            }*/}
-                        {/*        />*/}
-                        {/*        <p className="mt-1 text-xs text-gray-500 dark:text-gray-300">*/}
-                        {/*            PNG or JPG (MAX. 800x400px).*/}
-                        {/*        </p>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
+                        <div>
+                            <label className="block text-sm font-medium leading-6 text-gray-900">
+                                រូបភាព
+                            </label>
+                            <div className="flex items-center justify-center w-full">
+                                <div className="w-full h-64">
+                                    <label htmlFor="image"
+                                           className="flex items-center justify-center w-full h-full">
+                                        {isImage ? (
+                                            <img src={imageURL} alt="image" className="h-full rounded-lg"/>
+                                        ) : (
+                                            <div
+
+                                                className="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                <svg aria-hidden="true" className="w-10 h-10 mb-3 text-gray-400" fill="none"
+                                                     stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                                </svg>
+                                                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or
+                                                    drag and drop</p>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                    JPG or PNG (MAX. 800x400px)
+                                                </p>
+                                            </div>
+                                        )}
+                                        <input
+                                            type="file"
+                                            id="image"
+                                            name="image"
+                                            className="hidden" accept=".png, .jpg, .jpeg"
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         <div>
                             <label className="block text-sm font-medium leading-6 text-gray-900">
                                 ឈ្មោះហាង
@@ -102,7 +132,7 @@ export default function AddStore() {
                                     name="name_km"
                                     type="text"
                                     autoComplete="false"
-                                    value={formData.name_km}
+                                    value={data.name_km}
                                     onChange={handleChange}
                                     required
 
@@ -124,7 +154,7 @@ export default function AddStore() {
                                     name="address_km"
                                     type="text"
                                     autoComplete="false"
-                                    value={formData.address_km}
+                                    value={data.address_km}
                                     onChange={handleChange}
                                     required
 
