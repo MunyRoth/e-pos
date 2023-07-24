@@ -2,7 +2,6 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Admin from "../pages/admin";
 import Dashboard from "../pages/admin/dashboard";
 import Items from "../pages/admin/items";
-import AddItem from "../pages/admin/items/add";
 import Bills from "../pages/admin/bills";
 import Invoices from "../pages/admin/invoices";
 import Members from "../pages/admin/members";
@@ -36,7 +35,6 @@ const RoutePath = () => {
                             </Route>
                             <Route exact path="items" element={<Items />} />
                             <Route exact path="items/stock_in" element={<StockIn />} />
-                            <Route exact path="items/stock_in/add" element={<AddItem />} />
                             <Route exact path="bills" element={<Bills />} />
                             <Route exact path="invoices" element={<Invoices />} />
                             <Route exact path="members" element={<Members />} />

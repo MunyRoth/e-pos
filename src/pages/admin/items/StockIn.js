@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import {Dialog, Transition} from "@headlessui/react";
 import {ExclamationTriangleIcon} from "@heroicons/react/24/outline";
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function StockIn() {
 
@@ -162,22 +164,43 @@ export default function StockIn() {
         let isMounted = true;
         const controller = new AbortController();
 
-        // try {
-        //     const res = await axiosPrivate.post('/items', formData , {
-        //         signal: controller.signal
-        //     });
-        //     isMounted && navigate(location.state?.path || "/admin/items/stock_in", { replace: true });
-        // } catch (err) {
-        //     setIsLoadingAdd(false);
-        // }
+        try {
+            const res = await axiosPrivate.post('/items', formData , {
+                signal: controller.signal
+            });
+            if (isMounted)  {
+                setIsLoadingAdd(false);
+                setOpenModalAddItem(false);
+                setData({
+                    store_id: Cookies.get('storeId'),
+                    image: null,
+                    UPC: "",
+                    name: ""
+                });
+                setImageURL("");
+                setIsImage(false);
+
+                toast.success("បានបន្ថែមជោគជ័យ", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                });
+            }
+        } catch (err) {
+            setIsLoadingAdd(false);
+            setOpenModalAddItem(false);
+        }
     }
 
     return (
         <>
             <div className="relative h-full">
                 <div className="absolute top-0 pt-16 h-full w-full flex justify-between space-x-4">
-                    <div className="w-4/6 overflow-y-scroll no-scrollbar ">
-                        <div className="w-full grid grid-cols-5 gap-4 justify-items-center">
+                    <div className="w-4/6 overflow-y-scroll no-scrollbar">
+                        <div className="w-full grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 justify-items-center">
                             {isLoading
                                 ? <>កំពុងផ្ទុក...</>
                                 : isEmpty
@@ -556,6 +579,8 @@ export default function StockIn() {
                     </div>
                 </Dialog>
             </Transition.Root>
+
+            <ToastContainer />
         </>
     )
 }
