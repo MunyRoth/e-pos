@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import {useEffect, useRef, useState} from "react";
+import {Link} from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import axios from "../api/axios";
 
@@ -11,57 +11,84 @@ export default function Login() {
     const userRef = useRef();
     const errRef = useRef();
 
-    const [isLoading, setIsLoading] = useState(false);
-
-    const [formData, setFormData] = useState({
-        email: "",
-        password: ""
+    const [isValidate, setIsValidate] = useState({
+        email: false,
+        password: false
     });
+    const [isLoading, setIsLoading] = useState(false);
     const [errMsg, setErrMsg] = useState('');
 
     const handleChange = e => {
-        const {name, value, type, checked} = e.target;
-        setFormData(prevFormData => {
+        const {name} = e.target;
+        setIsValidate(prevData => {
             return {
-                ...prevFormData,
-                [name]: type === "checkbox" ? checked : value
+                ...prevData,
+                [name]: false
             }
         });
+        setErrMsg('');
     }
-    const handleSubmit = async e => {
+
+    const handleLogin = async e => {
         e.preventDefault();
+        const {email, password} = e.target;
+        if (email.value.length === 0 && password.value.length === 0) {
+            setIsValidate(prevData => {
+                return {
+                    email: true,
+                    password: true
+                }
+            });
+            return false;
+        } else if (email.value.length === 0) {
+            setIsValidate(prevData => {
+                return {
+                    ...prevData,
+                    email: true
+                }
+            });
+            return false;
+        } else if (password.value.length === 0) {
+            setIsValidate(prevData => {
+                return {
+                    ...prevData,
+                    password: true
+                }
+            });
+            return false;
+        }
+
         setIsLoading(true);
 
+        const formData = new FormData();
+        formData.append("email", email.value);
+        formData.append("password", password.value);
+
         try {
-            const res = await axios.post(LOGIN_URL, JSON.stringify(formData),
+            const res = await axios.post(LOGIN_URL, formData,
                 {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
                     withCredentials: true
                 });
             login(res?.data.data.token, res?.data.data.role.name_en, res?.data.data.stores);
+            setIsLoading(false);
         } catch (err) {
             if (!err?.response) {
-                setErrMsg('No Server Response');
-            } else if (err.response?.status === 400) {
-                setErrMsg('Missing Email or Password');
+                setErrMsg('មានបញ្ហាក្នុងការចូល សូមព្យាយាមម្តងទៀត');
+            } else if (err.response?.status === 422) {
+                setErrMsg('អ៊ីម៉ែល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ');
             } else if (err.response?.status === 403) {
-                setErrMsg('Unauthorized');
+                setErrMsg('អ៊ីម៉ែល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ');
             } else {
-                setErrMsg('Login Failed');
+                setErrMsg('មានបញ្ហាក្នុងការចូល សូមព្យាយាមម្តងទៀត');
             }
             errRef.current.focus();
+            setIsLoading(false);
         }
     }
 
     useEffect(() => {
         userRef.current.focus();
     }, [])
-
-    useEffect(() => {
-        setErrMsg('');
-    }, [formData])
 
     return (
         <>
@@ -78,32 +105,54 @@ export default function Login() {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                                អាសយដ្ឋានអ៊ីម៉ែល
-                            </label>
-                            <div className="mt-2">
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    ref={userRef}
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
+                    <form className="space-y-6" onSubmit={handleLogin}>
+                        {isValidate.email
+                        ? <div>
+                                <label htmlFor="email" className="block text-sm font-medium leading-6 text-red-900">
+                                    អាសយដ្ឋានអ៊ីម៉ែល
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        ref={userRef}
+                                        onChange={handleChange}
 
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
+                                        className="block w-full rounded-md bg-red-50 border-0 border-red-500 text-red-900 text-sm py-1.5 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-700 focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500"
+                                        placeholder="សូមបញ្ចូលអ៊ីម៉ែល"
+                                    />
+                                </div>
                             </div>
-                        </div>
+                        :<div>
+                                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                    អាសយដ្ឋានអ៊ីម៉ែល
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        ref={userRef}
+                                        onChange={handleChange}
+
+                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                                    />
+                                </div>
+                            </div>}
 
                         <div>
                             <div className="flex items-center justify-between">
-                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                                    ពាក្យសំងាត់
-                                </label>
+                                {isValidate.password
+                                    ? <label htmlFor="password" className="block text-sm font-medium leading-6 text-red-900">
+                                        ពាក្យសំងាត់
+                                    </label>
+                                    : <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                                        ពាក្យសំងាត់
+                                    </label>
+                                }
                                 <div className="text-sm">
                                     <Link
                                         to="#"
@@ -113,17 +162,27 @@ export default function Login() {
                                 </div>
                             </div>
                             <div className="mt-2">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
+                                {isValidate.password
+                                    ? <input
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        autoComplete="password"
+                                        onChange={handleChange}
 
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                />
+                                        className="block w-full rounded-md bg-red-50 border-0 border-red-500 text-red-900 text-sm py-1.5 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-700 focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500"
+                                        placeholder="សូមបញ្ចូលពាក្យសម្ងាត់"
+                                    />
+                                    : <input
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        autoComplete="password"
+                                        onChange={handleChange}
+
+                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                                    />
+                                }
                             </div>
                         </div>
                         <p
@@ -136,8 +195,11 @@ export default function Login() {
 
                         <div>
                             {isLoading
-                                ? <button disabled type="button"
-                                          className="w-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 dark:bg-blue-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
+                                ? <button
+                                    disabled
+                                    type="button"
+                                    className="w-full inline-flex items-center justify-center rounded-md bg-main px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm dark:bg-main"
+                                >
                                     <svg aria-hidden="true" role="status"
                                          className="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101"
                                          fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -152,7 +214,7 @@ export default function Login() {
                                 </button>
                                 : <button
                                     type="submit"
-                                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 active:ring-4 active:outline-none active:ring-blue-300"
+                                    className="flex w-full justify-center rounded-md bg-main px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 active:ring-4 active:outline-none active:ring-green-300"
                                 >
                                     ចូល
                                 </button>

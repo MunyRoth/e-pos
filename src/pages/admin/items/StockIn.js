@@ -149,11 +149,10 @@ export default function StockIn() {
         }
     }
 
-    const handleSubmit = async e => {
+    const handleSubmit = e => {
         e.preventDefault();
         setIsLoadingAdd(true);
 
-        // Create an object of data
         const formData = new FormData();
         formData.append("store_id", Cookies.get('storeId'));
         formData.append("image", data.image);
@@ -164,22 +163,34 @@ export default function StockIn() {
         const controller = new AbortController();
 
         try {
-            const res = await axiosPrivate.post('/items', formData , {
-                signal: controller.signal
-            });
-            if (isMounted)  {
-                setIsLoadingAdd(false);
-                setOpenModalAddItem(false);
-                setData({
-                    store_id: Cookies.get('storeId'),
-                    image: null,
-                    UPC: "",
-                    name: ""
+            const post = async  () => {
+                const res = await axiosPrivate.post('/items', formData , {
+                    signal: controller.signal
                 });
-                setImageURL("");
-                setIsImage(false);
-                toast.success('Successfully created!');
+                if (isMounted)  {
+                    setIsLoadingAdd(false);
+                    setOpenModalAddItem(false);
+                    setData({
+                        store_id: Cookies.get('storeId'),
+                        image: null,
+                        UPC: "",
+                        name: ""
+                    });
+                    setImageURL("");
+                    setIsImage(false);
+
+                    setItems([...items, res.data.data]);
+                }
+                return res;
             }
+
+            const a = post();
+
+            toast.promise(a, {
+                loading: 'កំពុងផ្ទុក...',
+                success: 'បានបញ្ចូលទំនិញជោគជ័យ',
+                error: 'មានបញ្ហាក្នុងការបញ្ចូល'
+            });
         } catch (err) {
             setIsLoadingAdd(false);
             setOpenModalAddItem(false);
