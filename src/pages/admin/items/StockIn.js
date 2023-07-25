@@ -4,8 +4,7 @@ import Cookies from "js-cookie";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import {Dialog, Transition} from "@headlessui/react";
 import {ExclamationTriangleIcon} from "@heroicons/react/24/outline";
-import {ToastContainer, toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, {Toaster} from 'react-hot-toast';
 
 export default function StockIn() {
 
@@ -179,15 +178,7 @@ export default function StockIn() {
                 });
                 setImageURL("");
                 setIsImage(false);
-
-                toast.success("បានបន្ថែមជោគជ័យ", {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                });
+                toast.success('Successfully created!');
             }
         } catch (err) {
             setIsLoadingAdd(false);
@@ -580,7 +571,7 @@ export default function StockIn() {
                 </Dialog>
             </Transition.Root>
 
-            <ToastContainer />
+            <Toaster />
         </>
     )
 }
