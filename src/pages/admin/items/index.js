@@ -34,20 +34,21 @@ export default function Items() {
         let isMounted = true;
         const controller = new AbortController();
 
-        const getUser = async  () => {
-            try {
-                const res = await axiosPrivate.get('/items/store/'+Cookies.get('storeId'), {
-                    signal: controller.signal
-                });
-                isMounted && setItems(res.data.data);
-                res.data.data.length === 0 && setIsEmpty(true);
-                setIsLoading(false);
-            } catch (err) {
-
-            }
+        const getItems = async  () => {
+            const res = await axiosPrivate.get('/items/store/'+Cookies.get('storeId'), {
+                signal: controller.signal
+            });
+            isMounted && setItems(res.data.data);
+            res.data.data.length === 0 && setIsEmpty(true);
+            setIsLoading(false);
         }
 
-        getUser();
+        getItems()
+            .then(() => console.log("success"))
+            .catch(() => console.log("fail"))
+            .finally(() => {
+
+            });
 
         return () => {
             isMounted = false;

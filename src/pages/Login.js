@@ -70,7 +70,6 @@ export default function Login() {
                     withCredentials: true
                 });
             login(res?.data.data.token, res?.data.data.role.name_en, res?.data.data.stores);
-            setIsLoading(false);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('មានបញ្ហាក្នុងការចូល សូមព្យាយាមម្តងទៀត');
@@ -82,6 +81,7 @@ export default function Login() {
                 setErrMsg('មានបញ្ហាក្នុងការចូល សូមព្យាយាមម្តងទៀត');
             }
             errRef.current.focus();
+        } finally {
             setIsLoading(false);
         }
     }

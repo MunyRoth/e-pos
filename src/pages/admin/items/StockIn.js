@@ -3,26 +3,29 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import Cookies from "js-cookie";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import {Dialog, Transition} from "@headlessui/react";
-import {ExclamationTriangleIcon} from "@heroicons/react/24/outline";
+import {PlusCircleIcon} from "@heroicons/react/24/outline";
 import toast, {Toaster} from 'react-hot-toast';
 
 export default function StockIn() {
 
+    // hooks
     const navigate = useNavigate();
     const location = useLocation();
     const axiosPrivate = useAxiosPrivate();
 
+    // date
     const date = new Date();
     const weekday = ["អាទិត្យ","ចន្ទ","អង្គារ","ពុធ","ព្រហស្បតិ៍","សុក្រ","សៅរ៍"];
     const month = ["មករា","កុម្ភៈ","មីនា","មេសា","ឧសភា","មិថុនា","កក្កដា","សីហា","កញ្ញា","តុលា","វិច្ឆិកា","ធ្នូ"];
 
+    // items
     const [items, setItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isEmpty, setIsEmpty] = useState(false);
-    const [isLoadingOnPay, setIsLoadingOnPay] = useState(false);
-
     const [itemsProcessing, setItemsProcessing] = useState([]);
 
+    // status
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingOnPay, setIsLoadingOnPay] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(false);
     const [openModalAddItem, setOpenModalAddItem] = useState(false);
     const cancelModalAddItemRef = useRef(null);
 
@@ -162,39 +165,36 @@ export default function StockIn() {
         let isMounted = true;
         const controller = new AbortController();
 
-        try {
-            const post = async  () => {
-                const res = await axiosPrivate.post('/items', formData , {
-                    signal: controller.signal
-                });
-                if (isMounted)  {
-                    setIsLoadingAdd(false);
-                    setOpenModalAddItem(false);
-                    setData({
-                        store_id: Cookies.get('storeId'),
-                        image: null,
-                        UPC: "",
-                        name: ""
-                    });
-                    setImageURL("");
-                    setIsImage(false);
-
-                    setItems([...items, res.data.data]);
-                }
-                return res;
-            }
-
-            const a = post();
-
-            toast.promise(a, {
-                loading: 'កំពុងផ្ទុក...',
-                success: 'បានបញ្ចូលទំនិញជោគជ័យ',
-                error: 'មានបញ្ហាក្នុងការបញ្ចូល'
+        const post = async  () => {
+            const res = await axiosPrivate.post('/items', formData , {
+                signal: controller.signal
             });
-        } catch (err) {
-            setIsLoadingAdd(false);
-            setOpenModalAddItem(false);
+            if (isMounted) {
+                setOpenModalAddItem(false);
+                setData({
+                    store_id: Cookies.get('storeId'),
+                    image: null,
+                    UPC: "",
+                    name: ""
+                });
+                setImageURL("");
+                setIsImage(false);
+
+                setItems([...items, res.data.data]);
+            }
+            return res;
         }
+
+        toast.promise(post(), {
+            loading: 'កំពុងផ្ទុក...',
+            success: 'បានបញ្ចូលទំនិញជោគជ័យ',
+            error: 'មានបញ្ហាក្នុងការបញ្ចូល'
+        })
+            .then((data) => console.log(data))
+            .catch((data) => console.log(data))
+            .finally(() => {
+                setIsLoadingAdd(false);
+            });
     }
 
     return (
@@ -448,12 +448,12 @@ export default function StockIn() {
                                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                                     <div className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                         <div className="mt-3 text-center sm:mx-4 sm:mt-0 sm:text-left">
-                                            <div className="sm:flex sm:items-start">
-                                                <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                                    <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                                            <div className="flex items-center">
+                                                <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                                                    <PlusCircleIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
                                                 </div>
-                                                <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                                    បន្ថែមទំនិញ
+                                                <Dialog.Title as="h3" className="ml-3 text-base font-semibold leading-6 text-gray-900">
+                                                    បន្ថែមទំនិញថ្មី
                                                 </Dialog.Title>
                                             </div>
                                             <div className="flex flex-1 flex-col justify-center px-6 py-12 lg:px-8">
