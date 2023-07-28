@@ -7,10 +7,14 @@ const CheckAuth = () => {
     const location = useLocation();
 
     let token = Cookies.get('token');
+    let store = Cookies.get('storeId');
+    console.log(store)
 
     return (
         (auth?.token || token)
-            ? <Navigate to='/cashier' state={{ from: location }} replace />
+            ? (store === undefined)
+                ? <Navigate to='/admin/stores/add' state={{ from: location }} replace />
+                : <Navigate to='/cashier' state={{ from: location }} replace />
             : <Navigate to='/login' state={{ from: location }} replace />
     )
 };

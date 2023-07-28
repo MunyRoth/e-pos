@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
             if (stores.length === 0) navigate(location.state?.path || '/admin/stores/add', { replace: true });
             else {
                 Cookies.set('storeId', stores[0].id, { expires: 15 });
+                Cookies.set('branchIndex', 0, { expires: 15 });
                 navigate(location.state?.path || '/admin/dashboard', { replace: true });
             }
         } else {

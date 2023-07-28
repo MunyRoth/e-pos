@@ -88,6 +88,8 @@ export default function StockIn() {
         try {
             const res = await axiosPrivate.post('/stock_in',
                 {
+                    store_id: Cookies.get('storeId'),
+                    branch_index: Cookies.get('branchIndex'),
                     items: itemsProcessing
                 },
                 {
@@ -181,6 +183,7 @@ export default function StockIn() {
                 setIsImage(false);
 
                 setItems([...items, res.data.data]);
+                isEmpty && setIsEmpty(false);
             }
             return res;
         }
@@ -346,7 +349,8 @@ export default function StockIn() {
                         <div className="w-full h-20 p-4 absolute bottom-0">
                             {isLoadingOnPay
                                 ? <button disabled type="button"
-                                          className="w-full h-full inline-flex items-center justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 dark:bg-blue-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
+                                          className="w-full h-full inline-flex items-center justify-center rounded-md bg-main px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm dark:bg-main"
+                                >
                                     <svg aria-hidden="true" role="status"
                                          className="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101"
                                          fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -360,7 +364,7 @@ export default function StockIn() {
                                     កំពុងផ្ទុក...
                                 </button>
                                 : <button
-                                    className="w-full h-full text-white bg-blue-700 hover:bg-blue-800 active:ring-4 active:outline-none active:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    className="flex w-full h-full justify-center items-center rounded-md bg-main px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 active:ring-4 active:outline-none active:ring-green-300"
 
                                     onClick={handlePayNow}
                                 >

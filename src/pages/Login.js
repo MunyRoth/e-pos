@@ -73,8 +73,6 @@ export default function Login() {
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('មានបញ្ហាក្នុងការចូល សូមព្យាយាមម្តងទៀត');
-            } else if (err.response?.status === 422) {
-                setErrMsg('អ៊ីម៉ែល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ');
             } else if (err.response?.status === 403) {
                 setErrMsg('អ៊ីម៉ែល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ');
             } else {
