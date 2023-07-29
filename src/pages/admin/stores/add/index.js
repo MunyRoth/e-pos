@@ -55,6 +55,7 @@ export default function AddStore() {
                 signal: controller.signal
             });
             Cookies.set('storeId', res.data.data.id, { expires: 15 });
+            Cookies.set('branchIndex', 0, { expires: 15 });
             isMounted && navigate(location.state?.path || "/admin/items", { replace: true });
         } catch (err) {
             if (!err?.response) {

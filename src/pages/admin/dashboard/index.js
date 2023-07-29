@@ -94,8 +94,8 @@ export default function Dashboard() {
 
     return (
         <>
-            <div className="flex justify-between">
-                <h2 className="m-5 text-4xl font-bold text-gray-900 dark:text-white">ផ្ទាំងព័ត៌មាន</h2>
+            <div className="flex justify-between mb-4">
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-white">ផ្ទាំងព័ត៌មាន</h2>
 
                 <div className="flex items-center text-xs font-medium text-center text-gray-500 dark:text-gray-400 dark:border-gray-700">
                     <ul className="flex flex-wrap -mb-px border-b border-gray-200">
@@ -147,7 +147,6 @@ export default function Dashboard() {
                     </ul>
                 </div>
             </div>
-
             <div className="grid grid-cols-6 gap-4">
                 <div className="col-span-2 flex items-start h-full">
                     <div className="flex flex-col justify-between w-full h-full border border-gray-200 rounded-lg shadow sm:pt-4 sm:px-4 dark:bg-gray-800 dark:border-gray-700">

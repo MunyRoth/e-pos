@@ -58,8 +58,8 @@ export default function Items() {
 
     return (
         <>
-            <div className="flex items-center justify-between dark:bg-gray-900">
-                <h2 className="m-5 text-4xl font-bold text-gray-900 dark:text-white">ទំនិញ</h2>
+            <div className="h-10 mb-4 flex items-center justify-between dark:bg-gray-900">
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-white">ទំនិញ</h2>
                 <Link
                     to="stock_in"
                     type="button"

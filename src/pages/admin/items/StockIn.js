@@ -203,7 +203,7 @@ export default function StockIn() {
     return (
         <>
             <div className="relative h-full">
-                <div className="absolute top-0 pt-16 h-full w-full flex justify-between space-x-4">
+                <div className="absolute top-0 pt-14 h-full w-full flex space-x-4">
                     <div className="w-4/6 overflow-y-scroll no-scrollbar">
                         <div className="w-full grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 justify-items-center">
                             {isLoading
@@ -255,9 +255,9 @@ export default function StockIn() {
                             </div>
                         </div>
                         <div className="h-full w-full top-0 pt-20 pb-20 px-4 absolute">
-                            <ul role="list" className="h-full overflow-y-scroll no-scrollbar divide-y divide-gray-200 dark:divide-gray-700">
+                            <ul role="list" className="h-full flex flex-col space-y-4 overflow-y-scroll no-scrollbar">
                                 {itemsProcessing.map(item => (
-                                        <li className="mb-3 p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                                        <li className="p-3 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
                                             <div className="flex items-center space-x-4">
                                                 <div className="flex-shrink-0">
                                                     <img
@@ -374,13 +374,13 @@ export default function StockIn() {
                         </div>
                     </div>
                 </div>
-                <div className="absolute top-0 w-full h-16 flex items-center justify-between dark:bg-gray-900">
-                    <nav className="flex my-5" aria-label="Breadcrumb">
+                <div className="absolute top-0 w-full flex items-center justify-between dark:bg-gray-900">
+                    <nav className="flex" aria-label="Breadcrumb">
                         <ol className="inline-flex items-center space-x-1">
                             <li className="inline-flex items-center">
                                 <Link
                                     to='/admin/items'
-                                    className="ml-5 text-xl font-bold text-gray-900 dark:text-white"
+                                    className="text-xl font-bold text-gray-900 dark:text-white"
                                 >
                                     ទំនិញ
                                 </Link>

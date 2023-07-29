@@ -206,7 +206,7 @@ export default class Sidebar extends Component {
                 </aside>
 
                 <div className="relative h-screen sm:ml-64">
-                    <div className="absolute top-0 pt-16 px-4 pb-4 h-full w-full">
+                    <div className="absolute top-0 pt-20 px-4 pb-4 h-full w-full">
                         <Outlet/>
                     </div>
                     <Navbar />
