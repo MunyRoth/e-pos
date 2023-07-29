@@ -193,8 +193,8 @@ export default function StockIn() {
             success: 'បានបញ្ចូលទំនិញជោគជ័យ',
             error: 'មានបញ្ហាក្នុងការបញ្ចូល'
         })
-            .then((data) => console.log(data))
-            .catch((data) => console.log(data))
+            .then(() => {})
+            .catch(() => {})
             .finally(() => {
                 setIsLoadingAdd(false);
             });

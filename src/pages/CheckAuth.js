@@ -8,7 +8,6 @@ const CheckAuth = () => {
 
     let token = Cookies.get('token');
     let store = Cookies.get('storeId');
-    console.log(store)
 
     return (
         (auth?.token || token)

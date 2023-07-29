@@ -75,6 +75,9 @@ export default function Login() {
                 setErrMsg('មានបញ្ហាក្នុងការចូល សូមព្យាយាមម្តងទៀត');
             } else if (err.response?.status === 403) {
                 setErrMsg('អ៊ីម៉ែល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ');
+            } else if (err.response?.status === 422) {
+                if (err.response?.data.message === 'validation.email') setErrMsg('អ៊ីម៉ែលមិនត្រឹមត្រូវ');
+                else setErrMsg('សូមបញ្ចូលអ៊ីម៉ែល និងពាក្យសម្ងាត់');
             } else {
                 setErrMsg('មានបញ្ហាក្នុងការចូល សូមព្យាយាមម្តងទៀត');
             }

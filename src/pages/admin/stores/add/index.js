@@ -54,9 +54,8 @@ export default function AddStore() {
             const res = await axiosPrivate.post('/stores', formData, {
                 signal: controller.signal
             });
-            isMounted && console.log(res.data.data)
             Cookies.set('storeId', res.data.data.id, { expires: 15 });
-            navigate(location.state?.path || "/admin/dashboard", { replace: true });
+            isMounted && navigate(location.state?.path || "/admin/items", { replace: true });
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('មានបញ្ហាក្នុងការបញ្ចូល សូមព្យាយាមម្តងទៀត');
