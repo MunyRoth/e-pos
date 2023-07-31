@@ -43,18 +43,13 @@ export default function Items() {
             setIsLoading(false);
         }
 
-        getItems()
-            .then(() => console.log("success"))
-            .catch(() => console.log("fail"))
-            .finally(() => {
-
-            });
+        getItems().catch(() => console.log("fail"));
 
         return () => {
             isMounted = false;
             controller.abort();
         }
-    }, []);
+    }, [axiosPrivate]);
 
     return (
         <>
