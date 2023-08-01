@@ -12,11 +12,26 @@
     h3 {
         @apply text-lg font-bold leading-none text-gray-900 dark:text-white;
     }
+    label {
+        @apply block text-base font-semibold leading-6 text-gray-900;
+    }
 }
 
 @layer components {
     .input {
         @apply block py-2 text-base text-gray-900 leading-6 rounded-md border-0 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-main placeholder:text-gray-400 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main;
+    }
+    .input-error {
+        @apply block py-2 text-base text-red-900 leading-6 rounded-md bg-red-50 border-0 shadow-sm ring-1 ring-inset ring-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 placeholder:text-red-700;
+    }
+    .label-error {
+        @apply text-red-900;
+    }
+    .button {
+        @apply inline-flex items-center justify-center py-2 text-base text-white font-semibold leading-6 rounded-md bg-main shadow-sm hover:bg-green-700 active:bg-green-700 active:scale-98;
+    }
+    .button-loading {
+        @apply inline-flex items-center justify-center py-2 text-base text-white font-semibold leading-6 rounded-md bg-main shadow-sm;
     }
 }
 

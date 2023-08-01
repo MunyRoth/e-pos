@@ -109,7 +109,7 @@ export default function Login() {
                     <form className="space-y-6" onSubmit={handleLogin}>
                         {isValidate.email
                         ? <div>
-                                <label htmlFor="email" className="block text-sm font-medium leading-6 text-red-900">
+                                <label htmlFor="email" className="label-error">
                                     អាសយដ្ឋានអ៊ីម៉ែល
                                 </label>
                                 <div className="mt-2">
@@ -121,13 +121,13 @@ export default function Login() {
                                         ref={userRef}
                                         onChange={handleChange}
 
-                                        className="block w-full rounded-md bg-red-50 border-0 border-red-500 text-red-900 text-sm py-1.5 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-700 focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500"
+                                        className="input-error w-full"
                                         placeholder="សូមបញ្ចូលអ៊ីម៉ែល"
                                     />
                                 </div>
                             </div>
                         :<div>
-                                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                <label htmlFor="email" className="">
                                     អាសយដ្ឋានអ៊ីម៉ែល
                                 </label>
                                 <div className="mt-2">
@@ -147,10 +147,10 @@ export default function Login() {
                         <div>
                             <div className="flex items-center justify-between">
                                 {isValidate.password
-                                    ? <label htmlFor="password" className="block text-sm font-medium leading-6 text-red-900">
+                                    ? <label htmlFor="password" className="label-error">
                                         ពាក្យសំងាត់
                                     </label>
-                                    : <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                                    : <label htmlFor="password" className="">
                                         ពាក្យសំងាត់
                                     </label>
                                 }
@@ -171,7 +171,7 @@ export default function Login() {
                                         autoComplete="password"
                                         onChange={handleChange}
 
-                                        className="block w-full rounded-md bg-red-50 border-0 border-red-500 text-red-900 text-sm py-1.5 shadow-sm ring-1 ring-inset ring-red-300 placeholder:text-red-700 focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500"
+                                        className="input-error w-full"
                                         placeholder="សូមបញ្ចូលពាក្យសម្ងាត់"
                                     />
                                     : <input
@@ -199,7 +199,7 @@ export default function Login() {
                                 ? <button
                                     disabled
                                     type="button"
-                                    className="w-full inline-flex items-center justify-center rounded-md bg-main px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm dark:bg-main"
+                                    className="button-loading w-full"
                                 >
                                     <svg aria-hidden="true" role="status"
                                          className="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101"
@@ -215,7 +215,7 @@ export default function Login() {
                                 </button>
                                 : <button
                                     type="submit"
-                                    className="flex w-full justify-center rounded-md bg-main px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 active:ring-4 active:outline-none active:ring-green-300"
+                                    className="button w-full"
                                 >
                                     ចូល
                                 </button>

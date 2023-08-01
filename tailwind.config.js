@@ -10,6 +10,9 @@ module.exports = {
       },
       height: {
         'fill': '88vh',
+      },
+      scale: {
+        '98': '0.98'
       }
     },
   },
