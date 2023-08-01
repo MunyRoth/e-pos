@@ -100,9 +100,9 @@ export default function Login() {
                         src="https://res.cloudinary.com/dlb5onqd6/image/upload/v1673491430/data/logo_ioru7h.png"
                         alt="ePOS"
                     />
-                    <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                        ចុះឈ្មោះចូលគណនីរបស់អ្នក
-                    </h2>
+                    <h1 className="text-center mt-10">
+                        ចូលគណនី
+                    </h1>
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -139,7 +139,7 @@ export default function Login() {
                                         ref={userRef}
                                         onChange={handleChange}
 
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                                        className="input w-full"
                                     />
                                 </div>
                             </div>}
@@ -181,7 +181,7 @@ export default function Login() {
                                         autoComplete="password"
                                         onChange={handleChange}
 
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                                        className="input w-full"
                                     />
                                 }
                             </div>

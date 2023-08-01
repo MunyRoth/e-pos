@@ -95,7 +95,7 @@ export default function Dashboard() {
     return (
         <>
             <div className="flex justify-between mb-4">
-                <h2 className="text-4xl font-bold text-gray-900 dark:text-white">ផ្ទាំងព័ត៌មាន</h2>
+                <h1 className="">ផ្ទាំងព័ត៌មាន</h1>
 
                 <div className="flex items-center text-xs font-medium text-center text-gray-500 dark:text-gray-400 dark:border-gray-700">
                     <ul className="flex flex-wrap -mb-px border-b border-gray-200">
@@ -105,7 +105,7 @@ export default function Dashboard() {
                                     updateData(data1);
                                     setActiveTab(1);
                                 }}
-                                className={classNames((activeTab == 1) ? 'text-main border-main rounded-t-lg active dark:text-blue-500 dark:border-blue-500' : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', 'inline-block p-4 border-b-2 rounded-t-lg')}
+                                className={classNames((activeTab === 1) ? 'text-main border-main rounded-t-lg active dark:text-blue-500 dark:border-blue-500' : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300', 'inline-block p-4 border-b-2 rounded-t-lg')}
                             >
                                 ម្សិលម៉ិញ
                             </button>
@@ -151,9 +151,9 @@ export default function Dashboard() {
                 <div className="col-span-2 flex items-start h-full">
                     <div className="flex flex-col justify-between w-full h-full border border-gray-200 rounded-lg shadow sm:pt-4 sm:px-4 dark:bg-gray-800 dark:border-gray-700">
                         <div className="flex items-center justify-between mb-4">
-                            <h5 className="text-lg font-bold leading-none text-gray-900 dark:text-white">
+                            <h3 className="">
                             ចំនួនលក់
-                            </h5>
+                            </h3>
                         </div>
                         <LineChart
                             data={data}
@@ -165,9 +165,9 @@ export default function Dashboard() {
                     <div
                         className="w-full h-full border border-gray-200 rounded-lg shadow sm:pt-4 sm:px-4 sm:pb-2 dark:bg-gray-800 dark:border-gray-700">
                         <div className="flex items-center justify-between mb-4">
-                            <h5 className="text-lg font-bold leading-none text-gray-900 dark:text-white">
+                            <h3 className="">
                                 កំពូលផលិតផល
-                            </h5>
+                            </h3>
                             <Link
                                 to="top-items"
                                 className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
@@ -213,9 +213,9 @@ export default function Dashboard() {
                     <div
                         className="w-full h-full border border-gray-200 rounded-lg shadow sm:pt-4 sm:px-4 sm:pb-2 dark:bg-gray-800 dark:border-gray-700">
                         <div className="flex items-center justify-between mb-4">
-                            <h5 className="text-lg font-bold leading-none text-gray-900 dark:text-white">
+                            <h3 className="">
                                 កំពូលអតិថិជន
-                            </h5>
+                            </h3>
                             <Link
                                 to="top-customer"
                                 className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">

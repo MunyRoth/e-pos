@@ -57,7 +57,7 @@ export default function Items() {
     return (
         <div className="relative flex flex-col h-full">
             <div className="h-10 mb-4 flex items-center justify-between dark:bg-gray-900">
-                <h2 className="text-4xl font-bold text-gray-900 dark:text-white">វិក្កយប័ត្រ</h2>
+                <h1 className="">វិក្កយប័ត្រ</h1>
                 <label htmlFor="table-search" className="sr-only">ស្វែងរក</label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

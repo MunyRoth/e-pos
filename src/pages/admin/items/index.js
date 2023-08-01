@@ -54,7 +54,7 @@ export default function Items() {
     return (
         <>
             <div className="h-10 mb-4 flex items-center justify-between dark:bg-gray-900">
-                <h2 className="text-4xl font-bold text-gray-900 dark:text-white">ទំនិញ</h2>
+                <h1 className="">ទំនិញ</h1>
                 <Link
                     to="stock_in"
                     type="button"
@@ -73,7 +73,7 @@ export default function Items() {
                         </svg>
                     </div>
                     <input type="text" id="table-search-users"
-                           className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           className="input w-80 pl-10"
                            placeholder="ស្វែងរកទំនិញដោយបារកូដ"/>
                 </div>
             </div>
